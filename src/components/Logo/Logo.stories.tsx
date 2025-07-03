@@ -1,5 +1,5 @@
 // Logo Stories - Simple documentation examples
-import Logo, { LogoProps } from './Logo'
+import Logo from './Logo'
 
 // Basic examples for documentation
 export const logoExamples = {

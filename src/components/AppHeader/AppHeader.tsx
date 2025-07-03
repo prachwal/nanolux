@@ -1,4 +1,3 @@
-import { ComponentChildren } from 'preact'
 import Logo from '../Logo/Logo'
 import './AppHeader.css'
 

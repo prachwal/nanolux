@@ -1,20 +1,19 @@
-import { useState } from 'preact/hooks'
 import './app.css'
 import './styles/atomic.css'
 
 // Import our NanoLux components
 import { 
-  Button, 
   Card, 
   AppHeader, 
   CounterDemo, 
   ButtonShowcase, 
   FeatureList, 
-  BundleInfo 
+  BundleInfo,
+  type FeatureItem 
 } from './components'
 
 export function App() {
-  const nanoluxFeatures = [
+  const nanoluxFeatures: FeatureItem[] = [
     { icon: '📦', text: 'Ultra-małe bundly (<1KB runtime)' },
     { icon: '🎨', text: 'CSS Variables + Atomic CSS' },
     { icon: '🔧', text: 'Zero config' },
