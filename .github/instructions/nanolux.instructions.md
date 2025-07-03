@@ -27,6 +27,225 @@ mode: agent
 - **HMR**: szybki development loop
 - **Performance budgets**: monitoring rozmiaru bundli
 
+## Preact - Podstawowe Zasady
+
+### Dlaczego Preact?
+- **Rozmiar**: 3KB vs 45KB React - 15x mniejszy!
+- **Kompatybilność**: Preact/compat dla istniejących React komponentów
+- **Performance**: Szybszy rendering, mniej overhead
+- **Modern API**: Hooks, Context, Suspense out-of-the-box
+- **Bundle size**: Krytyczne dla NanoLux - każdy KB ma znaczenie
+
+### Preact vs React - Kluczowe Różnice
+```jsx
+// ✅ Preact - używaj 'class' zamiast 'className'
+<div class="btn btn-primary">Button</div>
+
+// ❌ React syntax
+<div className="btn btn-primary">Button</div>
+
+// ✅ Preact - import z preact
+import { render } from 'preact'
+import { useState, useEffect } from 'preact/hooks'
+
+// ❌ React imports
+import { render } from 'react-dom'
+import { useState, useEffect } from 'react'
+```
+
+### Preact Hooks - Najważniejsze API
+```jsx
+import { useState, useEffect, useContext, useReducer } from 'preact/hooks'
+import { createContext, ComponentChildren } from 'preact'
+
+// useState - identyczny jak React
+const [count, setCount] = useState(0)
+
+// useEffect - identyczny jak React
+useEffect(() => {
+  console.log('Component mounted')
+}, [])
+
+// Custom hooks - preferowane dla logiki biznesowej
+function useCounter(initial = 0) {
+  const [count, setCount] = useState(initial)
+  const increment = () => setCount(c => c + 1)
+  const decrement = () => setCount(c => c - 1)
+  return { count, increment, decrement }
+}
+
+// Context - dla współdzielonych danych
+const ThemeContext = createContext('light')
+
+function ThemeProvider({ children }: { children: ComponentChildren }) {
+  const [theme, setTheme] = useState('light')
+  
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  )
+}
+```
+
+### Preact TypeScript - Typy i Interfejsy
+```tsx
+import { ComponentChildren, JSX } from 'preact'
+import { useState } from 'preact/hooks'
+
+// Standardowe typy dla props
+interface ButtonProps {
+  variant?: 'primary' | 'secondary' | 'danger'
+  size?: 'sm' | 'md' | 'lg'
+  disabled?: boolean
+  children: ComponentChildren
+  onClick?: JSX.MouseEventHandler<HTMLButtonElement>
+}
+
+// Functional component z pełną typizacją
+function Button({ variant, size = 'md', disabled, children, onClick }: ButtonProps) {
+  return (
+    <button 
+      class={`btn btn-${size} ${variant ? `btn-${variant}` : ''}`}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  )
+}
+
+// Event handlers - używaj JSX namespace
+const handleClick: JSX.MouseEventHandler<HTMLButtonElement> = (e) => {
+  e.preventDefault()
+  console.log('Button clicked')
+}
+
+// Ref types
+import { useRef } from 'preact/hooks'
+
+const inputRef = useRef<HTMLInputElement>(null)
+```
+
+### Preact Performance - Optymalizacje
+```jsx
+import { memo } from 'preact/compat'
+import { useMemo, useCallback } from 'preact/hooks'
+
+// Memoization - unikaj niepotrzebnych re-renderów
+const ExpensiveComponent = memo(({ data }) => {
+  const processedData = useMemo(() => {
+    return data.map(item => ({ ...item, processed: true }))
+  }, [data])
+  
+  return <div>{processedData.length} items</div>
+})
+
+// useCallback - stabilne referencje funkcji
+function Parent() {
+  const [count, setCount] = useState(0)
+  
+  const handleIncrement = useCallback(() => {
+    setCount(c => c + 1)
+  }, [])
+  
+  return <Child onIncrement={handleIncrement} />
+}
+```
+
+### Preact/compat - Kompatybilność z React
+```jsx
+// vite.config.js - alias dla React kompatybilności
+export default {
+  resolve: {
+    alias: {
+      'react': 'preact/compat',
+      'react-dom': 'preact/compat'
+    }
+  }
+}
+
+// Umożliwia używanie React bibliotek
+import { Component } from 'react' // faktycznie preact/compat
+import ReactMarkdown from 'react-markdown' // działa z preact
+```
+
+### Preact Patterns - Najlepsze Praktyki
+```jsx
+// ✅ Conditional rendering
+{isVisible && <div>Content</div>}
+
+// ✅ Lists z kluczami
+{items.map(item => (
+  <li key={item.id}>{item.name}</li>
+))}
+
+// ✅ Error boundaries (tylko class components)
+class ErrorBoundary extends Component {
+  state = { hasError: false }
+  
+  static getDerivedStateFromError(error) {
+    return { hasError: true }
+  }
+  
+  componentDidCatch(error, errorInfo) {
+    console.error('Error caught:', error, errorInfo)
+  }
+  
+  render() {
+    if (this.state.hasError) {
+      return <div>Something went wrong.</div>
+    }
+    return this.props.children
+  }
+}
+
+// ✅ Portals
+import { createPortal } from 'preact/compat'
+
+function Modal({ children }) {
+  return createPortal(
+    <div class="modal">{children}</div>,
+    document.body
+  )
+}
+```
+
+### Preact Bundle Optimization
+```jsx
+// ✅ Dynamic imports - code splitting
+const LazyComponent = lazy(() => import('./LazyComponent'))
+
+// ✅ Conditional imports
+const isDev = process.env.NODE_ENV === 'development'
+if (isDev) {
+  import('./devtools').then(({ setupDevtools }) => setupDevtools())
+}
+
+// ✅ Tree-shaking friendly exports
+export { Button } from './Button'
+export { Card } from './Card'
+// Zamiast: export * from './components'
+```
+
+### Migracja z React do Preact
+1. **Zamień importy**: `react` → `preact`, `react-dom` → `preact`
+2. **Użyj `class`**: `className` → `class`
+3. **Dodaj preact/compat**: Dla React bibliotek
+4. **Sprawdź bundle size**: Powinien być znacznie mniejszy
+5. **Testuj**: Większość kodu działa bez zmian
+
+### Preact DevTools
+```bash
+# Instalacja
+npm install --save-dev preact/devtools
+
+# Użycie w developmencie
+if (process.env.NODE_ENV === 'development') {
+  require('preact/devtools')
+}
+```
+
 ## Styling CSS
 - **CSS Variables + Atomic**: Hybrid approach dla parametryzacji
 - **Build-time purging**: Tylko używane klasy trafiają do bundla
@@ -341,5 +560,3 @@ export type { ButtonProps } from './Button'
 - **Stories jako testy**: Mniej boilerplate
 - **Izolacja**: Każdy komponent jest niezależny
 - **Tree-shaking**: Tylko używane komponenty w bundle
-
-## Constraints

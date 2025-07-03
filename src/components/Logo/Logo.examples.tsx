@@ -1,4 +1,4 @@
-// Logo Stories - Simple documentation examples
+// Logo Examples - Simple documentation without Storybook dependency
 import Logo from './Logo'
 
 // Basic examples for documentation
@@ -36,8 +36,11 @@ export const logoExamples = {
   }
 }
 
-// Example usage
-export default function LogoExamples() {
+/**
+ * Example showcase component for Logo
+ * Usage: <LogoShowcase />
+ */
+export function LogoShowcase() {
   return (
     <div className="flex gap-16 items-center flex-wrap">
       <Logo {...logoExamples.ViteLogo} />
