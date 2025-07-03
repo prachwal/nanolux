@@ -1,0 +1,42 @@
+/* ButtonShowcase Component - Atomic CSS */
+.button-showcase {
+  text-align: center;
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+.button-showcase-title {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.button-showcase-section {
+  margin-bottom: 2rem;
+}
+
+.button-showcase-subtitle {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.button-showcase-group {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .button-showcase-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .button-showcase-section {
+    margin-bottom: 1.5rem;
+  }
+}

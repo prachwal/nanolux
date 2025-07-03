@@ -1,0 +1,29 @@
+.card {
+  background: var(--card-bg, var(--nanolux-surface, #2a2a2a));
+  border-radius: var(--card-radius, 8px);
+  transition: all 0.2s ease;
+  color: var(--nanolux-text, rgba(255, 255, 255, 0.87));
+}
+
+.card-default {
+  border: 1px solid var(--card-border-color, var(--nanolux-border, rgba(255, 255, 255, 0.12)));
+}
+
+.card-elevated {
+  border: 1px solid var(--card-border-color, var(--nanolux-border, rgba(255, 255, 255, 0.12)));
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  background: var(--card-bg, var(--nanolux-surface-elevated, #3a3a3a));
+}
+
+.card-outlined {
+  border: 2px solid var(--card-border-color, #007bff);
+}
+
+.card-sm { padding: var(--card-padding, 8px); }
+.card-md { padding: var(--card-padding, 16px); }
+.card-lg { padding: var(--card-padding, 24px); }
+
+.card-elevated:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}

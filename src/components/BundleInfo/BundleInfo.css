@@ -1,0 +1,39 @@
+/* BundleInfo Component - Atomic CSS */
+.bundle-info {
+  text-align: center;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+
+.bundle-info-text {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.bundle-info-size {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.bundle-info-note {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+@media (max-width: 640px) {
+  .bundle-info-text {
+    font-size: 0.9rem;
+  }
+  
+  .bundle-info-size {
+    font-size: 0.95rem;
+  }
+  
+  .bundle-info-note {
+    font-size: 0.8rem;
+  }
+}

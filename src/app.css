@@ -1,0 +1,24 @@
+/* App-specific styles - minimal overrides */
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  background-color: var(--nanolux-bg, #1a1a1a);
+  color: var(--nanolux-text, rgba(255, 255, 255, 0.87));
+}
+
+.read-the-docs {
+  color: var(--nanolux-text-secondary, rgba(255, 255, 255, 0.6));
+}
+
+/* Utility classes that are used frequently across the app */
+.margin-top-16 {
+  margin-top: 16px;
+}
+
+/* Text color variables for consistency */
+:root {
+  --text-primary: var(--nanolux-text, rgba(255, 255, 255, 0.87));
+  --text-secondary: var(--nanolux-text-secondary, rgba(255, 255, 255, 0.6));
+}
