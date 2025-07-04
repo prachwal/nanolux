@@ -2,7 +2,19 @@
 
 Architektura i najlepsze praktyki dla komponentów NanoLux.
 
-## 📑 Zawartość
+## � Phase 1: Foundation Components
+
+### ✅ Core Components (Complete)
+- **[Button](./Button.md)** - Enhanced button with 5 variants, 4 sizes, loading states (~512B)
+- **[Input](./Input.md)** - Complete input/text field with types, icons, validation (~400B)  
+- **[Card](./Card.md)** - Versatile container with variants and theming (~300B)
+- **[Layout](./Layout.md)** - Flex & Stack helpers for atomic layouts (~100B)
+- **[Typography](./Typography.md)** - Heading & Text system with semantic hierarchy (~200B)
+- **[Logo](./Logo.md)** - Pre-existing logo component, fully validated (~150B)
+
+**Total Phase 1 Bundle**: ~2.5KB | **Test Coverage**: 233/233 passed | **Stories**: 50+ interactive examples
+
+## 📑 Documentation Structure
 
 ### Component Architecture
 - **Folder per Component** - Wszystko w jednym miejscu

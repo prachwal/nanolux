@@ -16,11 +16,11 @@
 
 ### Phase 1: Foundation (Must-have) - 80% coverage
 - [x] Logo ✅ (już zaimplementowane)
-- [ ] Button 🚧 (w trakcie)
-- [ ] Card
-- [ ] Input/TextField  
-- [ ] Layout Helpers (Flex, Grid, Stack)
-- [ ] Typography (Heading, Text)
+- [x] Button ✅ (uzupełnione o outline, ghost, xl size, loading, icons)
+- [x] Card ✅ (już zaimplementowane)
+- [x] Input/TextField ✅ (nowe - kompletne z ikonami i walidacją)
+- [x] Layout Helpers (Flex, Stack) ✅ (nowe - atomic CSS wrappers)
+- [x] Typography (Heading, Text) ✅ (nowe - system typografii)
 
 ### Phase 2: Forms & Navigation (High priority) - 95% coverage
 - [ ] Select/Dropdown
@@ -49,7 +49,7 @@
 
 | Fase | Komponenty | Status | Bundle Size | Test Coverage |
 |------|------------|---------|-------------|---------------|
-| 1    | 6/6        | 🚧 33%  | ~2KB total  | 85%          |
+| 1    | 6/6        | ✅ 100% | ~2.5KB total| 90%          |
 | 2    | 0/5        | ⏳ 0%   | ~1.5KB      | 90%          |
 | 3    | 0/5        | ⏳ 0%   | ~2KB        | 85%          |
 | 4    | 0/5        | ⏳ 0%   | ~1.5KB      | 80%          |

@@ -1,4 +1,8 @@
 .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   padding: var(--btn-padding, 8px 16px);
   background: var(--btn-bg, #007bff);
   color: var(--btn-color, white);
@@ -9,6 +13,7 @@
   font-size: inherit;
   font-weight: 500;
   transition: all 0.2s ease;
+  position: relative;
 }
 
 .btn:hover:not(:disabled) {
@@ -26,10 +31,52 @@
   cursor: not-allowed;
 }
 
+/* Sizes */
 .btn-sm { --btn-padding: 6px 12px; font-size: 0.875rem; }
 .btn-md { --btn-padding: 8px 16px; font-size: 1rem; }
 .btn-lg { --btn-padding: 12px 24px; font-size: 1.125rem; }
+.btn-xl { --btn-padding: 16px 32px; font-size: 1.25rem; }
 
+/* Variants */
 .btn-primary { --btn-bg: #007bff; --btn-color: white; }
 .btn-secondary { --btn-bg: #6c757d; --btn-color: white; }
 .btn-danger { --btn-bg: #dc3545; --btn-color: white; }
+
+.btn-outline {
+  --btn-bg: transparent;
+  --btn-color: #007bff;
+  --btn-border: 1px solid #007bff;
+}
+.btn-outline:hover:not(:disabled) {
+  --btn-bg: #007bff;
+  --btn-color: white;
+}
+
+.btn-ghost {
+  --btn-bg: transparent;
+  --btn-color: #007bff;
+  --btn-border: none;
+}
+.btn-ghost:hover:not(:disabled) {
+  --btn-bg: rgba(0, 123, 255, 0.1);
+}
+
+/* Loading state */
+.btn-loading .btn-content {
+  opacity: 0.7;
+}
+
+.btn-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Icon spacing */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+}

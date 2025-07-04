@@ -1,0 +1,19 @@
+/* Typography styles */
+
+.heading {
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+  color: var(--heading-color, #2c2c2c);
+}
+
+.text {
+  margin: 0 0 12px 0;
+  line-height: 1.5;
+  color: var(--text-color, #2c2c2c);
+}
+
+.text-muted {
+  color: #6c757d;
+}
+
+/* Typography size classes już są w atomic.css */

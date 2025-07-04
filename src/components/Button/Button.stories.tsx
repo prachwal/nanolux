@@ -14,17 +14,20 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'danger']
+      options: ['primary', 'secondary', 'danger', 'outline', 'ghost']
     },
     size: {
       control: { type: 'select' },
-      options: ['sm', 'md', 'lg']
+      options: ['sm', 'md', 'lg', 'xl']
     },
     bg: {
       control: { type: 'color' }
     },
     color: {
       control: { type: 'color' }
+    },
+    loading: {
+      control: { type: 'boolean' }
     }
   }
 }
@@ -54,12 +57,27 @@ export const Danger: Story = {
   }
 }
 
+export const Outline: Story = {
+  args: {
+    variant: 'outline',
+    children: 'Outline Button'
+  }
+}
+
+export const Ghost: Story = {
+  args: {
+    variant: 'ghost',
+    children: 'Ghost Button'
+  }
+}
+
 export const AllSizes: Story = {
   render: () => (
     <div class="flex gap-8 items-center">
       <Button variant="primary" size="sm">Small</Button>
       <Button variant="primary" size="md">Medium</Button>
       <Button variant="primary" size="lg">Large</Button>
+      <Button variant="primary" size="xl">Extra Large</Button>
     </div>
   ),
   parameters: {
@@ -73,13 +91,50 @@ export const AllSizes: Story = {
 
 export const AllVariants: Story = {
   render: () => (
-    <div class="flex gap-8 items-center">
+    <div class="flex gap-8 items-center flex-wrap">
       <Button variant="primary">Primary</Button>
       <Button variant="secondary">Secondary</Button>
       <Button variant="danger">Danger</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
       <Button>Default</Button>
     </div>
   )
+}
+
+export const WithIcon: Story = {
+  render: () => (
+    <div class="flex gap-8 items-center flex-wrap">
+      <Button variant="primary" icon="🔍">Search</Button>
+      <Button variant="secondary" icon="💾">Save</Button>
+      <Button variant="danger" icon="🗑️">Delete</Button>
+      <Button variant="outline" icon="📝">Edit</Button>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Przyciski z ikonami - używając prop icon'
+      }
+    }
+  }
+}
+
+export const LoadingStates: Story = {
+  render: () => (
+    <div class="flex gap-8 items-center flex-wrap">
+      <Button variant="primary" loading>Loading...</Button>
+      <Button variant="secondary" loading>Processing</Button>
+      <Button variant="outline" loading>Saving</Button>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Stany loading z animowanym spinnerem'
+      }
+    }
+  }
 }
 
 export const CustomColors: Story = {
