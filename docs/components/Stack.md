@@ -38,4 +38,4 @@ Complete documentation for the Stack component.
 ---
 
 *This documentation is automatically updated from multiple sources.*
-*Last updated: 2025-07-04T17:21:50.366Z*
+*Last updated: 2025-07-04T17:25:00.075Z*
