@@ -6,9 +6,25 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     globals: true,
     css: true,
-    // Exclude stories from test files, include only .test. files
+    // Include only .test. files, exclude stories
     include: ['**/*.test.?(m)[jt]s?(x)'],
-    exclude: ['**/*.stories.?(m)[jt]s?(x)', '**/node_modules/**']
+    exclude: ['**/*.stories.?(m)[jt]s?(x)', '**/node_modules/**'],
+    // Coverage configuration
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      include: ['src/**/*'],
+      exclude: [
+        'src/**/*.stories.*',
+        'src/**/*.test.*',
+        'src/test/**',
+        'src/main.tsx',
+        '**/*.d.ts',
+        '**/index.ts'
+      ]
+    },
+    // Reporters for different output formats
+    reporters: ['default', 'json', 'html']
   },
   resolve: {
     alias: {

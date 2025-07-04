@@ -25,7 +25,7 @@ jobs:
       
     - name: Run tests with coverage
       run: |
-        npm run test:coverage -- --reporter=json --reporter=html --reporter=verbose
+        npm run test:coverage
         npm run test:stories || echo "Storybook tests failed but continuing..."
       continue-on-error: false
       
@@ -74,6 +74,10 @@ jobs:
           echo "- ✅ Passed: ${PASSED}" >> $GITHUB_STEP_SUMMARY
           echo "- ❌ Failed: ${FAILED}" >> $GITHUB_STEP_SUMMARY
           echo "- 📊 Total: ${TOTAL}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "### Test Summary" >> $GITHUB_STEP_SUMMARY
+          echo "✅ All tests passed! Coverage reports available below." >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
         fi
         

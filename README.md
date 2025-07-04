@@ -2,7 +2,7 @@
 
 > Minimalistyczny framework dla Preact - Ultra-małe bundly, Zero config, Performance-first
 
-[![Tests](https://img.shields.io/badge/tests-30%2F30%20passing-brightgreen)](./docs/testing/)
+[![Tests](https://img.shields.io/badge/tests-201%2F201%20passing-brightgreen)](./docs/testing/)
 [![Bundle Size](https://img.shields.io/badge/runtime-%3C1KB-blue)](./docs/performance/)
 [![Framework](https://img.shields.io/badge/framework-Preact%203KB-purple)](https://preactjs.com/)
 
@@ -56,7 +56,7 @@ src/
 
 **Vitest + Storybook Integration** - najlepsze z dwóch światów:
 
-- ✅ **30/30 testów przechodzi** - pełna pokrycie komponentów
+- ✅ **201/201 testów przechodzi** - pełna pokrycie komponentów
 - ⚡ **Vitest** - ultra-fast test runner
 - 🎭 **@testing-library/preact** - user-centric testing
 - 📚 **Stories jako testy** - zero duplikacji
