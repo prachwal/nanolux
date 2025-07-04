@@ -15,9 +15,11 @@ docs/
 │   └── README.md               # Optymalizacje i budgets
 ├── storybook/                   # 📖 Storybook
 │   └── STORYBOOK_INTEGRATION.md # Dokumentacja wizualna
-└── testing/                    # 🧪 Testing
-    ├── README.md               # Przewodnik testowania
-    └── TEST_SETUP.md           # Konfiguracja Vitest vs Jest
+├── testing/                    # 🧪 Testing
+│   ├── README.md               # Przewodnik testowania
+│   └── TEST_SETUP.md           # Konfiguracja Vitest vs Jest
+└── ci-cd/                      # 🚀 CI/CD
+    └── README.md               # Pipeline i deployment
 ```
 
 ## 🚀 Quick Navigation
@@ -32,6 +34,7 @@ docs/
 1. [**Performance Optimization**](./performance/) - Bundle size i wydajność
 2. [**Testing Setup**](./testing/TEST_SETUP.md) - Rozwiązywanie problemów z testami
 3. [**Architecture**](./components/) - Głęboka architektura
+4. [**CI/CD Pipeline**](./ci-cd/) - Automatyzacja i deployment
 
 ### 🚨 Troubleshooting
 - [**Jest vs Vitest Problem**](./testing/TEST_SETUP.md) - Błędy VS Code extensions
@@ -45,7 +48,15 @@ docs/
 - ✅ **Documentation**: Kompletna struktura
 - ✅ **Performance**: <1KB runtime
 - ✅ **Storybook Integration**: Kompletne (8 komponentów, 50+ stories)
-- 🔄 **CI/CD Pipeline**: Planowane
+- ✅ **CI/CD Pipeline**: Wdrożone (GitHub Actions + GitLab Pages)
+
+### 🚀 CI/CD Features
+- **Automated Testing**: Vitest + Coverage + Storybook tests
+- **Bundle Analysis**: Size monitoring z targetem <50KB
+- **Multi-platform Deploy**: GitHub Pages + GitLab Pages
+- **PR Integration**: Automatyczne komentarze z wynikami
+- **Performance Monitoring**: Bundle size tracking
+- **Artifact Management**: 30-day retention dla raportów
 
 ## 🤝 Contribution Guidelines
 

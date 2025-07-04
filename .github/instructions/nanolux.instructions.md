@@ -870,5 +870,70 @@ src/
   .storybook/
     main.ts              # Storybook config
     preview.ts           # Global decorators
-````
 ```
+
+## 📚 Podejście do Dokumentacji
+
+### Documentation-Driven Development Philosophy
+NanoLux stosuje **Documentation-First approach** gdzie dokumentacja jest:
+
+1. **Auto-Generated (80%)**: 
+   - API Reference z TypeScript interfaces + JSDoc
+   - Interactive Examples z Storybook stories
+   - Bundle Analysis z webpack stats
+   - Performance Metrics z test results
+
+2. **Manual Content (20%)**:
+   - Implementation guides i best practices
+   - Migration tutorials
+   - Architecture decisions
+
+### Dokumentacja jako System
+```
+docs/
+├── IMPLEMENTATION_ROADMAP.md   # Master checklist z fazami
+├── phases/                     # Szczegóły implementacji
+│   ├── phase-1-foundation.md
+│   ├── phase-2-forms-navigation.md
+│   ├── phase-3-interaction.md
+│   └── phase-4-advanced.md
+├── templates/                  # Templates dla komponentów
+│   └── component-template.md
+├── standards/                  # Standardy jakości
+│   ├── documentation.md
+│   ├── testing.md
+│   ├── performance.md
+│   └── accessibility.md
+└── generated/                  # Auto-generated content
+    ├── api/                    # TypeScript → API docs
+    ├── examples/               # Storybook → examples
+    └── metrics/                # Performance data
+```
+
+### Documentation Workflow
+1. **TypeScript Interface** + JSDoc → Auto-generated API docs
+2. **Storybook Stories** → Interactive examples + visual tests
+3. **Vitest Tests** → Behavior specifications
+4. **Bundle Analysis** → Performance metrics
+5. **Manual Guides** → Tutorials i best practices
+
+### Auto-Generation Pipeline
+- `npm run docs:api` - Generate API docs z TypeScript
+- `npm run docs:examples` - Extract examples z Stories  
+- `npm run docs:metrics` - Generate performance reports
+- `npm run docs:build` - Complete documentation build
+- `npm run docs:deploy` - Deploy to production
+
+### Quality Standards
+- **API Coverage**: 100% interfaces documented
+- **Example Coverage**: 100% components mają interactive examples
+- **Link Health**: 0 broken links w dokumentacji
+- **Performance**: <2s load time dla docs pages
+- **Accessibility**: WCAG 2.1 AA compliance dla docs
+
+### Integration z Development
+- **Pre-commit**: Validate docs consistency
+- **CI/CD**: Auto-update docs on code changes
+- **Stories**: Serve as both docs i tests
+- **TypeScript**: Single source of truth dla API
+- **Performance**: Automated bundle size tracking
