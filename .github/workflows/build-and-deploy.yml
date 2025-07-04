@@ -1,0 +1,130 @@
+name: Build and Deploy to GitLab Pages
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run tests
+      run: npm run test:coverage
+      
+    - name: Build project
+      run: npm run build
+      
+    - name: Build Storybook
+      run: npm run build-storybook
+      
+    - name: Create public directory
+      run: |
+        mkdir -p public
+        cp -r dist/* public/
+        mkdir -p public/storybook
+        cp -r storybook-static/* public/storybook/
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: public/
+        retention-days: 30
+        
+    - name: Deploy to GitLab Pages
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      run: |
+        # Clone GitLab repository
+        git clone https://${{ secrets.GITLAB_USERNAME }}:${{ secrets.GITLAB_TOKEN }}@gitlab.com/${{ secrets.GITLAB_PROJECT_PATH }}.git gitlab-repo
+        
+        # Copy build files to GitLab repo
+        cd gitlab-repo
+        rm -rf public
+        cp -r ../public .
+        
+        # Configure git
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        
+        # Commit and push
+        git add .
+        git commit -m "Deploy from GitHub Actions - $(date)" || exit 0
+        git push origin main
+        
+  bundle-analysis:
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build for analysis
+      run: npm run build
+      
+    - name: Analyze bundle size
+      run: |
+        npx vite-bundle-analyzer dist/assets --json > bundle-analysis.json
+        echo "## Bundle Analysis" >> $GITHUB_STEP_SUMMARY
+        echo "| File | Size | Gzipped |" >> $GITHUB_STEP_SUMMARY
+        echo "|------|------|---------|" >> $GITHUB_STEP_SUMMARY
+        
+    - name: Comment bundle size on PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+          
+          // Read bundle analysis
+          let bundleInfo = '';
+          try {
+            const distPath = path.join(process.cwd(), 'dist', 'assets');
+            const files = fs.readdirSync(distPath);
+            
+            bundleInfo = '## 📦 Bundle Size Analysis\n\n';
+            bundleInfo += '| File | Size |\n';
+            bundleInfo += '|------|------|\n';
+            
+            files.forEach(file => {
+              const stats = fs.statSync(path.join(distPath, file));
+              const sizeKB = (stats.size / 1024).toFixed(2);
+              bundleInfo += `| ${file} | ${sizeKB} KB |\n`;
+            });
+            
+            bundleInfo += '\n> 🎯 Target: Keep total bundle < 50KB for optimal performance\n';
+          } catch (error) {
+            bundleInfo = '❌ Could not analyze bundle size';
+          }
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: bundleInfo
+          });
