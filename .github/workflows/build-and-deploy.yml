@@ -107,9 +107,15 @@ jobs:
         echo "📁 [View detailed coverage report in artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
       
     - name: Build project
+      env:
+        NODE_ENV: production
+        GITHUB_PAGES: true
       run: npm run build
       
     - name: Build Storybook
+      env:
+        NODE_ENV: production
+        GITHUB_PAGES: true
       run: npm run build-storybook
       
     - name: Create public directory
@@ -183,6 +189,9 @@ jobs:
       run: npm ci
       
     - name: Build for analysis
+      env:
+        NODE_ENV: production
+        GITHUB_PAGES: true
       run: npm run build
       
     - name: Analyze bundle size

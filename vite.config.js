@@ -5,6 +5,11 @@ import preact from '@preact/preset-vite'
 export default defineConfig({
   plugins: [preact()],
   
+  // Base path for GitHub Pages deployment
+  base: process.env.NODE_ENV === 'production' && process.env.GITHUB_PAGES 
+    ? '/nanolux/' 
+    : '/',
+  
   // NanoLux optimization settings
   build: {
     // Minimize bundle size

@@ -15,6 +15,13 @@ const config: StorybookConfig = {
   },
   "typescript": {
     "check": false
+  },
+  "viteFinal": async (config) => {
+    // Set base path for GitHub Pages deployment
+    if (process.env.GITHUB_PAGES) {
+      config.base = '/nanolux/storybook/';
+    }
+    return config;
   }
 };
 export default config;

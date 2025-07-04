@@ -1,0 +1,1 @@
+import{u as a}from"./jsxRuntime.module-CQ7lm5on.js";/* empty css             */function p({src:n,alt:t,variant:o,size:i="md",href:s,target:m="_blank",className:r="",...c}){const g=`logo logo-${i}`,e=o?` logo-${o}`:"",$=`${g}${e} ${r}`.trim(),l=a("img",{src:n,alt:t,className:$,...c});return s?a("a",{href:s,target:m,className:"logo-link",children:l}):l}export{p as L};
