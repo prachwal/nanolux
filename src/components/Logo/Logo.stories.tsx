@@ -33,7 +33,7 @@ type Story = StoryObj<typeof Logo>
 // Basic stories
 export const ViteLogo: Story = {
   args: {
-    src: '/vite.svg',
+    src: './vite.svg',
     alt: 'Vite logo',
     variant: 'vite'
   }
@@ -41,7 +41,7 @@ export const ViteLogo: Story = {
 
 export const PreactLogo: Story = {
   args: {
-    src: '/preact.svg',
+    src: './preact.svg',
     alt: 'Preact logo',
     variant: 'preact'
   }
@@ -50,9 +50,9 @@ export const PreactLogo: Story = {
 export const AllSizes: Story = {
   render: () => (
     <div class="flex gap-16 items-center">
-      <Logo src="/vite.svg" alt="Small Vite logo" variant="vite" size="sm" />
-      <Logo src="/vite.svg" alt="Medium Vite logo" variant="vite" size="md" />
-      <Logo src="/vite.svg" alt="Large Vite logo" variant="vite" size="lg" />
+      <Logo src="./vite.svg" alt="Small Vite logo" variant="vite" size="sm" />
+      <Logo src="./vite.svg" alt="Medium Vite logo" variant="vite" size="md" />
+      <Logo src="./vite.svg" alt="Large Vite logo" variant="vite" size="lg" />
     </div>
   ),
   parameters: {
@@ -67,8 +67,8 @@ export const AllSizes: Story = {
 export const AllVariants: Story = {
   render: () => (
     <div class="flex gap-16 items-center">
-      <Logo src="/vite.svg" alt="Vite logo" variant="vite" />
-      <Logo src="/preact.svg" alt="Preact logo" variant="preact" />
+      <Logo src="./vite.svg" alt="Vite logo" variant="vite" />
+      <Logo src="./preact.svg" alt="Preact logo" variant="preact" />
     </div>
   ),
   parameters: {
@@ -100,12 +100,12 @@ export const WithLink: Story = {
 export const LogoGrid: Story = {
   render: () => (
     <div class="grid gap-16" style="grid-template-columns: repeat(3, 1fr); place-items: center;">
-      <Logo src="/vite.svg" alt="Vite small" variant="vite" size="sm" />
-      <Logo src="/vite.svg" alt="Vite medium" variant="vite" size="md" />
-      <Logo src="/vite.svg" alt="Vite large" variant="vite" size="lg" />
-      <Logo src="/preact.svg" alt="Preact small" variant="preact" size="sm" />
-      <Logo src="/preact.svg" alt="Preact medium" variant="preact" size="md" />
-      <Logo src="/preact.svg" alt="Preact large" variant="preact" size="lg" />
+      <Logo src="./vite.svg" alt="Vite small" variant="vite" size="sm" />
+      <Logo src="./vite.svg" alt="Vite medium" variant="vite" size="md" />
+      <Logo src="./vite.svg" alt="Vite large" variant="vite" size="lg" />
+      <Logo src="./preact.svg" alt="Preact small" variant="preact" size="sm" />
+      <Logo src="./preact.svg" alt="Preact medium" variant="preact" size="md" />
+      <Logo src="./preact.svg" alt="Preact large" variant="preact" size="lg" />
     </div>
   ),
   parameters: {
@@ -121,14 +121,14 @@ export const InteractiveLogo: Story = {
   render: () => (
     <div class="flex gap-16">
       <Logo 
-        src="/vite.svg" 
+        src="./vite.svg" 
         alt="Interactive Vite logo" 
         variant="vite" 
         href="https://vitejs.dev" 
         target="_blank"
       />
       <Logo 
-        src="/preact.svg" 
+        src="./preact.svg" 
         alt="Interactive Preact logo" 
         variant="preact" 
         href="https://preactjs.com" 
@@ -149,13 +149,13 @@ export const ResponsiveLogo: Story = {
   render: () => (
     <div class="flex flex-col gap-8">
       <div class="text-sm">Mobile (small):</div>
-      <Logo src="/vite.svg" alt="Mobile logo" variant="vite" size="sm" />
+      <Logo src="./vite.svg" alt="Mobile logo" variant="vite" size="sm" />
       
       <div class="text-sm">Tablet (medium):</div>
-      <Logo src="/vite.svg" alt="Tablet logo" variant="vite" size="md" />
+      <Logo src="./vite.svg" alt="Tablet logo" variant="vite" size="md" />
       
       <div class="text-sm">Desktop (large):</div>
-      <Logo src="/vite.svg" alt="Desktop logo" variant="vite" size="lg" />
+      <Logo src="./vite.svg" alt="Desktop logo" variant="vite" size="lg" />
     </div>
   ),
   parameters: {

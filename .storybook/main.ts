@@ -16,6 +16,9 @@ const config: StorybookConfig = {
   "typescript": {
     "check": false
   },
+  "staticDirs": [
+    "../public"
+  ],
   "viteFinal": async (config) => {
     // Set base path for GitHub Pages deployment
     if (process.env.GITHUB_PAGES) {

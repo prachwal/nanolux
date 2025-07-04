@@ -118,6 +118,13 @@ jobs:
         GITHUB_PAGES: true
       run: npm run build-storybook
       
+    - name: Copy logos to Storybook
+      run: |
+        # Copy logo files to Storybook static directory
+        cp public/vite.svg storybook-static/vite.svg
+        cp public/preact.svg storybook-static/preact.svg
+        echo "✅ Logos copied to Storybook"
+      
     - name: Create public directory
       run: |
         mkdir -p public
