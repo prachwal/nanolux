@@ -13,6 +13,8 @@ docs/
 │   └── README.md               # Setup i workflow
 ├── performance/                 # ⚡ Performance
 │   └── README.md               # Optymalizacje i budgets
+├── storybook/                   # 📖 Storybook
+│   └── STORYBOOK_INTEGRATION.md # Dokumentacja wizualna
 └── testing/                    # 🧪 Testing
     ├── README.md               # Przewodnik testowania
     └── TEST_SETUP.md           # Konfiguracja Vitest vs Jest
@@ -24,6 +26,7 @@ docs/
 1. [**Development Setup**](./development/) - Konfiguracja środowiska
 2. [**Testing Guide**](./testing/) - Jak pisać testy
 3. [**Component Guide**](./components/) - Tworzenie komponentów
+4. [**Storybook Guide**](./storybook/) - Dokumentacja wizualna komponentów
 
 ### 🔧 Dla Zaawansowanych
 1. [**Performance Optimization**](./performance/) - Bundle size i wydajność
@@ -37,11 +40,11 @@ docs/
 
 ## 📊 Status Projektu
 
-- ✅ **Testing System**: 30/30 testów przechodzi
+- ✅ **Testing System**: 201/201 testów przechodzi
 - ✅ **Build System**: Vite + Preact
 - ✅ **Documentation**: Kompletna struktura
 - ✅ **Performance**: <1KB runtime
-- 🔄 **Storybook Integration**: W trakcie
+- ✅ **Storybook Integration**: Kompletne (8 komponentów, 50+ stories)
 - 🔄 **CI/CD Pipeline**: Planowane
 
 ## 🤝 Contribution Guidelines
