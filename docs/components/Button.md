@@ -38,4 +38,4 @@ Complete documentation for the Button component.
 ---
 
 *This documentation is automatically updated from multiple sources.*
-*Last updated: 2025-07-04T17:13:34.941Z*
+*Last updated: 2025-07-04T17:21:50.369Z*
