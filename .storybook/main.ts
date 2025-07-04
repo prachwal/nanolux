@@ -5,10 +5,16 @@ const config: StorybookConfig = {
     "../src/**/*.mdx",
     "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
-  "addons": [],
+  "addons": [
+    "@storybook/addon-essentials",
+    "@storybook/addon-interactions"
+  ],
   "framework": {
     "name": "@storybook/preact-vite",
     "options": {}
+  },
+  "typescript": {
+    "check": false
   }
 };
 export default config;
