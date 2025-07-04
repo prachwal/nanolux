@@ -23,8 +23,61 @@ jobs:
     - name: Install dependencies
       run: npm ci
       
-    - name: Run tests
-      run: npm run test:coverage
+    - name: Run tests with coverage
+      run: |
+        npm run test:coverage -- --reporter=json --reporter=html --reporter=verbose
+        npm run test:stories || echo "Storybook tests failed but continuing..."
+      continue-on-error: false
+      
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: |
+          coverage/
+          test-results.json
+          vitest-report.html
+        retention-days: 30
+        
+    - name: Upload test coverage to summary
+      if: always()
+      run: |
+        echo "## 🧪 Test Results" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Coverage summary
+        if [ -f coverage/coverage-summary.json ]; then
+          echo "### Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Percentage |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|------------|" >> $GITHUB_STEP_SUMMARY
+          
+          LINES=$(cat coverage/coverage-summary.json | jq -r '.total.lines.pct')
+          FUNCTIONS=$(cat coverage/coverage-summary.json | jq -r '.total.functions.pct')
+          BRANCHES=$(cat coverage/coverage-summary.json | jq -r '.total.branches.pct')
+          STATEMENTS=$(cat coverage/coverage-summary.json | jq -r '.total.statements.pct')
+          
+          echo "| Lines | ${LINES}% |" >> $GITHUB_STEP_SUMMARY
+          echo "| Functions | ${FUNCTIONS}% |" >> $GITHUB_STEP_SUMMARY
+          echo "| Branches | ${BRANCHES}% |" >> $GITHUB_STEP_SUMMARY
+          echo "| Statements | ${STATEMENTS}% |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        # Test results
+        if [ -f test-results.json ]; then
+          PASSED=$(cat test-results.json | jq -r '.numPassedTests // 0')
+          FAILED=$(cat test-results.json | jq -r '.numFailedTests // 0')
+          TOTAL=$(cat test-results.json | jq -r '.numTotalTests // 0')
+          
+          echo "### Test Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Passed: ${PASSED}" >> $GITHUB_STEP_SUMMARY
+          echo "- ❌ Failed: ${FAILED}" >> $GITHUB_STEP_SUMMARY
+          echo "- 📊 Total: ${TOTAL}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "📁 [View detailed coverage report in artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
       
     - name: Build project
       run: npm run build
@@ -93,7 +146,7 @@ jobs:
         echo "| File | Size | Gzipped |" >> $GITHUB_STEP_SUMMARY
         echo "|------|------|---------|" >> $GITHUB_STEP_SUMMARY
         
-    - name: Comment bundle size on PR
+    - name: Comment test results on PR
       if: github.event_name == 'pull_request'
       uses: actions/github-script@v7
       with:
@@ -101,30 +154,139 @@ jobs:
           const fs = require('fs');
           const path = require('path');
           
+          let testInfo = '## 🧪 Test Results\n\n';
+          
+          // Read coverage data
+          try {
+            const coveragePath = path.join(process.cwd(), 'coverage', 'coverage-summary.json');
+            if (fs.existsSync(coveragePath)) {
+              const coverage = JSON.parse(fs.readFileSync(coveragePath, 'utf8'));
+              const lines = coverage.total.lines.pct;
+              const functions = coverage.total.functions.pct;
+              const branches = coverage.total.branches.pct;
+              const statements = coverage.total.statements.pct;
+              
+              testInfo += '### 📊 Coverage Summary\n';
+              testInfo += '| Metric | Percentage | Status |\n';
+              testInfo += '|--------|------------|--------|\n';
+              testInfo += `| Lines | ${lines}% | ${lines >= 80 ? '✅' : '⚠️'} |\n`;
+              testInfo += `| Functions | ${functions}% | ${functions >= 80 ? '✅' : '⚠️'} |\n`;
+              testInfo += `| Branches | ${branches}% | ${branches >= 70 ? '✅' : '⚠️'} |\n`;
+              testInfo += `| Statements | ${statements}% | ${statements >= 80 ? '✅' : '⚠️'} |\n\n`;
+            }
+          } catch (error) {
+            testInfo += '⚠️ Could not read coverage data\n\n';
+          }
+          
           // Read bundle analysis
-          let bundleInfo = '';
           try {
             const distPath = path.join(process.cwd(), 'dist', 'assets');
-            const files = fs.readdirSync(distPath);
-            
-            bundleInfo = '## 📦 Bundle Size Analysis\n\n';
-            bundleInfo += '| File | Size |\n';
-            bundleInfo += '|------|------|\n';
-            
-            files.forEach(file => {
-              const stats = fs.statSync(path.join(distPath, file));
-              const sizeKB = (stats.size / 1024).toFixed(2);
-              bundleInfo += `| ${file} | ${sizeKB} KB |\n`;
-            });
-            
-            bundleInfo += '\n> 🎯 Target: Keep total bundle < 50KB for optimal performance\n';
+            if (fs.existsSync(distPath)) {
+              const files = fs.readdirSync(distPath);
+              
+              testInfo += '### 📦 Bundle Size Analysis\n';
+              testInfo += '| File | Size | Status |\n';
+              testInfo += '|------|------|--------|\n';
+              
+              let totalSize = 0;
+              files.forEach(file => {
+                const stats = fs.statSync(path.join(distPath, file));
+                const sizeKB = (stats.size / 1024);
+                totalSize += sizeKB;
+                const status = sizeKB < 50 ? '✅' : sizeKB < 100 ? '⚠️' : '❌';
+                testInfo += `| ${file} | ${sizeKB.toFixed(2)} KB | ${status} |\n`;
+              });
+              
+              testInfo += `| **Total** | **${totalSize.toFixed(2)} KB** | ${totalSize < 50 ? '✅' : totalSize < 100 ? '⚠️' : '❌'} |\n\n`;
+              testInfo += `> 🎯 **NanoLux Target**: Keep total bundle < 50KB for optimal performance\n\n`;
+            }
           } catch (error) {
-            bundleInfo = '❌ Could not analyze bundle size';
+            testInfo += '❌ Could not analyze bundle size\n\n';
           }
+          
+          testInfo += '📁 [View detailed reports in artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n';
           
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: bundleInfo
+            body: testInfo
           });
+          
+  publish-reports:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: build-artifacts
+        path: ./public
+        
+    - name: Download test artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: test-results
+        path: ./test-reports
+        
+    - name: Setup test reports for GitHub Pages
+      run: |
+        # Copy coverage report to public
+        mkdir -p public/reports
+        cp -r test-reports/coverage/* public/reports/ 2>/dev/null || echo "No coverage reports found"
+        
+        # Create index for reports
+        cat > public/reports/index.html << 'EOF'
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>NanoLux Test Reports</title>
+            <style>
+                body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 40px; }
+                .card { border: 1px solid #e1e5e9; border-radius: 6px; padding: 20px; margin: 20px 0; }
+                .card h3 { margin-top: 0; color: #0969da; }
+                a { color: #0969da; text-decoration: none; }
+                a:hover { text-decoration: underline; }
+            </style>
+        </head>
+        <body>
+            <h1>🧪 NanoLux Test Reports</h1>
+            
+            <div class="card">
+                <h3>📊 Coverage Report</h3>
+                <p>Detailed code coverage analysis</p>
+                <a href="./index.html">View Coverage Report →</a>
+            </div>
+            
+            <div class="card">
+                <h3>📦 Bundle Analysis</h3>
+                <p>Bundle size and performance metrics</p>
+                <a href="../">Back to Main App →</a>
+            </div>
+            
+            <div class="card">
+                <h3>📚 Storybook Documentation</h3>
+                <p>Component documentation and examples</p>
+                <a href="../storybook/">View Storybook →</a>
+            </div>
+        </body>
+        </html>
+        EOF
+        
+    - name: Setup GitHub Pages
+      uses: actions/configure-pages@v4
+      
+    - name: Upload to GitHub Pages
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./public
+        
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4
