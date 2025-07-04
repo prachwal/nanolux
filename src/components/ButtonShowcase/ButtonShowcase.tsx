@@ -1,7 +1,8 @@
 import { Button } from '../index'
+import { JSX } from 'preact'
 import './ButtonShowcase.css'
 
-interface ButtonShowcaseProps {
+interface ButtonShowcaseProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'class'> {
   /** Tytuł sekcji */
   title?: string
   /** Dodatkowe klasy CSS */

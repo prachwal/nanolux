@@ -1,3 +1,4 @@
+import { JSX } from 'preact'
 import './FeatureList.css'
 
 interface FeatureItem {
@@ -7,7 +8,7 @@ interface FeatureItem {
   text: string
 }
 
-interface FeatureListProps {
+interface FeatureListProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'class'> {
   /** Lista funkcjonalności */
   features: FeatureItem[]
   /** Tytuł sekcji */

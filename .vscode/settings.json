@@ -1,0 +1,49 @@
+{
+  // CAŁKOWICIE WYŁĄCZ JEST W TYM WORKSPACE
+  "extensions.disabled": [
+    "orta.vscode-jest",
+    "firsttris.vscode-jest-runner"
+  ],
+  
+  // Konfiguracja Vitest
+  "vitest.enable": true,
+  "vitest.commandLine": "npm run test",
+  
+  // Test Explorer - użyj Vitest
+  "testExplorer.useNativeTesting": true,
+  
+  // KOMPLETNE WYŁĄCZENIE JEST
+  "jest.enable": false,
+  "jest.autoEnable": false,
+  "jest.disabledWorkspaceFolders": ["nanolux"],
+  "jest.runMode": "deferred",
+  "jest.enableCodeLens": false,
+  
+  // Wyłącz wszystkie inne test runnery oprócz Vitest
+  "testExplorer.enable": false,
+  
+  // TypeScript - nie używaj innych test runnerów
+  "typescript.suggest.autoImports": true,
+  "typescript.preferences.importModuleSpecifier": "relative",
+  
+  // File associations dla testów - tylko Vitest
+  "files.associations": {
+    "*.test.ts": "typescript",
+    "*.test.tsx": "typescriptreact",
+    "*.spec.ts": "typescript", 
+    "*.spec.tsx": "typescriptreact"
+  },
+  
+  // Exclude patterns
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/coverage": true,
+    "**/.vitest": true,
+    "**/jest.config.*": true
+  },
+  
+  // Tylko Vitest ma dostęp do plików testowych
+  "files.exclude": {
+    "jest.config.*": true
+  }
+}

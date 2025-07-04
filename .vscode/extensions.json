@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "vitest.explorer",
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-next"
+  ],
+  "unwantedRecommendations": [
+    "orta.vscode-jest",
+    "firsttris.vscode-jest-runner"
+  ]
+}

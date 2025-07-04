@@ -1,7 +1,7 @@
-import { ComponentChildren } from 'preact'
+import { ComponentChildren, JSX } from 'preact'
 import './Card.css'
 
-interface CardProps {
+interface CardProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'class'> {
   /** Wariant karty */
   variant?: 'default' | 'elevated' | 'outlined'
   /** Padding wewnętrzny */
@@ -11,7 +11,7 @@ interface CardProps {
   /** Custom kolor obramowania */
   borderColor?: string
   /** Zawartość karty */
-  children: ComponentChildren
+  children?: ComponentChildren
   /** Custom className */
   className?: string
 }

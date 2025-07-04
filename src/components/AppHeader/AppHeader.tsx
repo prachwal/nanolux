@@ -1,7 +1,8 @@
 import Logo from '../Logo/Logo'
+import { JSX } from 'preact'
 import './AppHeader.css'
 
-interface AppHeaderProps {
+interface AppHeaderProps extends Omit<JSX.HTMLAttributes<HTMLElement>, 'class'> {
   /** Tytuł aplikacji */
   title?: string
   /** Opis aplikacji */

@@ -1,6 +1,7 @@
+import { JSX } from 'preact'
 import './Logo.css'
 
-interface LogoProps {
+interface LogoProps extends Omit<JSX.HTMLAttributes<HTMLImageElement>, 'class' | 'src' | 'alt'> {
   /** Źródło obrazu logo */
   src: string
   /** Tekst alternatywny */

@@ -554,9 +554,321 @@ export type { ButtonProps } from './Button'
 - **Vite**: Automatyczne code splitting per component
 - **Bundle analyzer**: Monitoring rozmiaru każdego komponentu
 
-## Zalety tego podejścia
-- **Wszystko w jednym miejscu**: Łatwe zarządzanie
-- **Automatyczna dokumentacja**: Z TypeScript + JSDoc
-- **Stories jako testy**: Mniej boilerplate
-- **Izolacja**: Każdy komponent jest niezależny
-- **Tree-shaking**: Tylko używane komponenty w bundle
+## System Testów - Lekki i Zintegrowany
+
+### Filozofia Testowania w NanoLux
+- **Build-time first**: Większość błędów wyłapujemy podczas budowania
+- **Stories jako testy**: Minimalizujemy boilerplate
+- **Performance testing**: Każdy test sprawdza bundle size
+- **User-centric**: Testujemy jak użytkownik, nie implementację
+- **Zero config**: Testy działają od razu, bez konfiguracji
+
+### Stack Testowy
+
+#### 1. **Vitest + Storybook Integration** - Najlepsze z dwóch światów
+```bash
+# Instalacja
+npm install --save-dev vitest @storybook/test-runner @storybook/testing-library
+npm install --save-dev @preact/testing-library jsdom
+```
+
+```js
+// vitest.config.js
+import { defineConfig } from 'vitest/config'
+import { storybookTest } from '@storybook/test/vitest-plugin'
+
+export default defineConfig({
+  plugins: [storybookTest()],
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./src/test/setup.ts'],
+    globals: true,
+    css: true,
+    // Integracja ze Storybook
+    include: ['**/*.stories.?(m)[jt]s?(x)', '**/*.test.?(m)[jt]s?(x)']
+  },
+  resolve: {
+    alias: {
+      'react': 'preact/compat',
+      'react-dom': 'preact/compat'
+    }
+  }
+})
+```
+
+```ts
+// src/test/setup.ts
+import { expect, afterEach } from 'vitest'
+import { cleanup } from '@preact/testing-library'
+import * as matchers from '@testing-library/jest-dom/matchers'
+import { setProjectAnnotations } from '@storybook/preact'
+import * as projectAnnotations from '../.storybook/preview'
+
+// Storybook integration
+setProjectAnnotations(projectAnnotations)
+
+expect.extend(matchers)
+
+afterEach(() => {
+  cleanup()
+})
+```
+
+#### 2. **Stories jako Testy Vitest** - Podwójne wykorzystanie
+```tsx
+// Button/Button.stories.tsx
+import Button from './Button'
+import { expect } from '@storybook/test'
+import { within, userEvent } from '@storybook/testing-library'
+import { test, describe } from 'vitest'
+
+export default {
+  title: 'Components/Button',
+  component: Button,
+  parameters: {
+    docs: {
+      description: {
+        component: 'Uniwersalny przycisk z pełną parametryzacją stylów'
+      }
+    }
+  }
+}
+
+// Stories - wizualna dokumentacja
+export const Primary = {
+  args: {
+    variant: 'primary',
+    children: 'Primary Button'
+  }
+}
+
+export const AllSizes = {
+  render: () => (
+    <div class="flex gap-8 items-center">
+      <Button variant="primary" size="sm">Small</Button>
+      <Button variant="primary" size="md">Medium</Button>
+      <Button variant="primary" size="lg">Large</Button>
+    </div>
+  )
+}
+
+export const CustomColors = {
+  render: () => (
+    <div class="flex gap-8">
+      <Button bg="#ff6b6b" color="white">Custom Red</Button>
+      <Button bg="#4ecdc4" color="white">Custom Teal</Button>
+      <Button bg="#45b7d1" color="white">Custom Blue</Button>
+    </div>
+  )
+}
+
+// Interactive stories z testami - działają w Storybook i Vitest
+export const InteractiveTest = {
+  args: {
+    variant: 'primary',
+    children: 'Click me'
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const button = canvas.getByRole('button')
+    
+    await expect(button).toBeInTheDocument()
+    await expect(button).toHaveClass('btn', 'btn-md', 'btn-primary')
+    await userEvent.click(button)
+    
+    button.disabled = true
+    await expect(button).toBeDisabled()
+  }
+}
+
+// Vitest tests bazujące na stories
+describe('Button Stories', () => {
+  test('Primary story renders correctly', async () => {
+    const { component, args } = Primary
+    // Test używa dokładnie tej samej konfiguracji co story
+    const rendered = await component.render(args)
+    expect(rendered).toBeTruthy()
+  })
+  
+  test('Interactive test passes', async () => {
+    // Uruchom play function ze story
+    const mockCanvas = document.createElement('div')
+    await InteractiveTest.play({ canvasElement: mockCanvas })
+  })
+})
+```
+
+#### 3. **Test Runner dla wszystkich Stories**
+```json
+// package.json
+{
+  "scripts": {
+    "test": "vitest",
+    "test:stories": "test-storybook",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "test:watch": "vitest --watch",
+    "test:all": "npm run test && npm run test:stories",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  }
+}
+```
+
+#### 4. **Shared Test Utilities** - DRY principle
+```ts
+// src/test/story-utils.ts
+import { render } from '@preact/testing-library'
+import { composeStories } from '@storybook/testing-library'
+
+// Funkcja do konwersji stories na testy
+export function testStory(storyModule: any, storyName: string) {
+  const stories = composeStories(storyModule)
+  const Story = stories[storyName]
+  
+  return render(<Story />)
+}
+
+// Bundle size checker dla stories
+export async function testBundleSize(componentName: string, maxSize: number) {
+  const stats = await import('../utils/bundle-stats.json')
+  const size = stats.components[componentName]?.size || 0
+  
+  expect(size).toBeLessThan(maxSize)
+  return size
+}
+
+// Performance test wrapper
+export function withPerformanceTest(story: any, maxBundleSize = 512) {
+  return {
+    ...story,
+    play: async (...args: any[]) => {
+      // Uruchom oryginalny test
+      if (story.play) {
+        await story.play(...args)
+      }
+      
+      // Dodaj test bundle size
+      await testBundleSize(story.component.name, maxBundleSize)
+    }
+  }
+}
+```
+
+#### 5. **Kompleksowy Example**
+```tsx
+// Card/Card.stories.tsx
+import Card from './Card'
+import { expect } from '@storybook/test'
+import { within } from '@storybook/testing-library'
+import { test, describe } from 'vitest'
+import { testStory, withPerformanceTest } from '../test/story-utils'
+
+export default {
+  title: 'Components/Card',
+  component: Card
+}
+
+// Basic stories
+export const Default = {
+  args: {
+    children: 'Default card content'
+  }
+}
+
+export const WithHeader = {
+  args: {
+    header: 'Card Title',
+    children: 'Card content with header'
+  }
+}
+
+// Enhanced story z automatycznym testem performance
+export const Performance = withPerformanceTest({
+  args: {
+    children: 'Performance tested card'
+  }
+}, 256) // max 256B bundle size
+
+// Vitest tests używające stories
+describe('Card Component', () => {
+  test('Default story renders', async () => {
+    const { getByText } = testStory(import('./Card.stories'), 'Default')
+    expect(getByText('Default card content')).toBeInTheDocument()
+  })
+  
+  test('WithHeader story has correct structure', async () => {
+    const { getByText } = testStory(import('./Card.stories'), 'WithHeader')
+    expect(getByText('Card Title')).toBeInTheDocument()
+    expect(getByText('Card content with header')).toBeInTheDocument()
+  })
+})
+```
+
+#### 6. **CI/CD Integration**
+```yaml
+# .github/workflows/test.yml
+name: Test Suite
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - run: npm ci
+      - run: npm run build-storybook
+      - name: Run Vitest
+        run: npm run test:coverage
+      - name: Run Storybook Tests
+        run: npm run test:stories
+      - name: Check Bundle Size
+        run: npm run build && npx bundlesize
+```
+
+### Zalety tej Integracji
+
+#### 🎯 **Zero Duplikacji**
+- Stories służą jako dokumentacja ORAZ testy
+- Jeden kod, podwójne wykorzystanie
+- Konsystentność między docs a testami
+
+#### ⚡ **Performance First**
+- Każdy story może testować bundle size
+- Automatyczne limity rozmiaru
+- Monitoring wpływu na bundle
+
+#### 🔧 **Developer Experience**
+- Vitest UI do debugowania
+- Storybook do wizualnej inspekcji
+- Hot reload dla testów i stories
+
+#### 📊 **Comprehensive Testing**
+- Visual testing w Storybook
+- Unit testing w Vitest
+- Integration testing przez stories
+- Performance testing wbudowane
+
+### Struktura Plików
+```
+src/
+  components/
+    Button/
+      Button.tsx
+      Button.stories.tsx    # Stories + Vitest tests
+      Button.css
+      index.ts
+  test/
+    setup.ts              # Vitest + Storybook setup
+    story-utils.ts        # Shared utilities
+    __mocks__/           # Mocks
+  .storybook/
+    main.ts              # Storybook config
+    preview.ts           # Global decorators
+````
+```

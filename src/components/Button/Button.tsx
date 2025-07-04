@@ -1,7 +1,7 @@
-import { ComponentChildren } from 'preact'
+import { ComponentChildren, JSX } from 'preact'
 import './Button.css'
 
-interface ButtonProps {
+interface ButtonProps extends Omit<JSX.HTMLAttributes<HTMLButtonElement>, 'onClick'> {
   /** Wariant przycisku */
   variant?: 'primary' | 'secondary' | 'danger'
   /** Rozmiar przycisku */
@@ -30,7 +30,8 @@ export default function Button({
   bg, 
   color, 
   disabled,
-  children, 
+  children,
+  onClick,
   ...props 
 }: ButtonProps) {
   const baseClass = `btn btn-${size}`
@@ -42,12 +43,25 @@ export default function Button({
   if (color) customStyles.push(`--btn-color: ${color}`)
   const customStyle = customStyles.length > 0 ? customStyles.join('; ') : undefined
   
+  // Handle onClick properly with disabled state
+  const handleClick = (e: MouseEvent) => {
+    if (disabled) {
+      e.preventDefault()
+      e.stopPropagation()
+      return
+    }
+    if (onClick) {
+      onClick(e)
+    }
+  }
+  
   return (
     <button 
       class={baseClass + variantClass} 
       // @ts-ignore - Preact allows string styles
       style={customStyle}
       disabled={disabled}
+      onClick={handleClick}
       {...props}
     >
       {/* @ts-ignore - Preact ComponentChildren compatibility */}

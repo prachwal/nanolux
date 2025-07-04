@@ -1,0 +1,35 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    // Całkowicie wyłącz Jest w tym workspace
+    "extensions.disabled": [
+      "orta.vscode-jest",
+      "firsttris.vscode-jest-runner"
+    ],
+    "jest.enable": false,
+    "jest.autoEnable": false,
+    "jest.runMode": "deferred",
+    "jest.enableCodeLens": false,
+    
+    // Włącz tylko Vitest
+    "vitest.enable": true,
+    "vitest.commandLine": "npm run test",
+    
+    // Test configuration
+    "testExplorer.useNativeTesting": true,
+    "testExplorer.enable": false
+  },
+  "extensions": {
+    "recommendations": [
+      "vitest.explorer"
+    ],
+    "unwantedRecommendations": [
+      "orta.vscode-jest",
+      "firsttris.vscode-jest-runner"
+    ]
+  }
+}

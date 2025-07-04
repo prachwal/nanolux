@@ -1,6 +1,7 @@
+import { JSX } from 'preact'
 import './BundleInfo.css'
 
-interface BundleInfoProps {
+interface BundleInfoProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'class'> {
   /** Rozmiar CSS w bajtach */
   cssSize?: string
   /** Rozmiar JS w bajtach */
