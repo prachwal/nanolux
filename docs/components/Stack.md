@@ -1,14 +1,14 @@
-# Card
+# Stack
 
 ## Overview
 
-Complete documentation for the Card component.
+Complete documentation for the Stack component.
 
 ## Bundle Information
 
 | Metric | Value |
 |--------|-------|
-| **Component Size** | 11.2 KB |
+| **Component Size** | 6.3 KB |
 | **Performance** | ⚠️ Large |
 | **Last Analyzed** | 7/4/2025 |
 
@@ -38,4 +38,4 @@ Complete documentation for the Card component.
 ---
 
 *This documentation is automatically updated from multiple sources.*
-*Last updated: 2025-07-04T17:13:34.941Z*
+*Last updated: 2025-07-04T17:13:34.938Z*

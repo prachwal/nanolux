@@ -2,15 +2,15 @@ import './app.css'
 import './styles/atomic.css'
 
 // Import our NanoLux components
+import { Card } from './components'
 import { 
-  Card, 
   AppHeader, 
   CounterDemo, 
   ButtonShowcase, 
   FeatureList, 
   BundleInfo,
   type FeatureItem 
-} from './components'
+} from './examples'
 
 export function App() {
   const nanoluxFeatures: FeatureItem[] = [

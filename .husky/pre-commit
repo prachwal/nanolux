@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# NanoLux Documentation Sync Pre-commit Hook
+# Validates and updates documentation before commit
+
+echo "🔍 Validating documentation sync..."
+
+# Exit on any error
+set -e
+
+# 1. Validate TypeScript interfaces → API docs
+echo "📋 Validating API documentation..."
+npm run docs:validate:api
+
+# 2. Validate Storybook stories → Examples
+echo "📚 Validating documentation examples..."
+npm run docs:validate:examples
+
+# 3. Check bundle size changes → Metrics
+echo "📊 Validating bundle metrics..."
+npm run docs:validate:metrics
+
+# 4. Update component documentation
+echo "📝 Updating component documentation..."
+npm run docs:update:components
+
+# 5. Validate internal links
+echo "🔗 Validating internal links..."
+npm run docs:validate:links
+
+echo "✅ Documentation validation completed successfully!"
+
+# Run tests last
+npm test

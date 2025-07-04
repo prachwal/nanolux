@@ -6,23 +6,15 @@ Dokumentacja dla minimalistycznego frameworka NanoLux - ultra-małe bundly, zero
 
 ### 🧪 [Testing](./testing/)
 - [**TEST_SETUP.md**](./testing/TEST_SETUP.md) - Konfiguracja testów (Vitest vs Jest)
-- [**Testing Guide**](./testing/TESTING_GUIDE.md) - Pełny przewodnik testowania
-- [**Performance Testing**](./testing/PERFORMANCE.md) - Testy wydajności i bundle size
 
 ### 🎨 [Components](./components/)
-- [**Component Architecture**](./components/ARCHITECTURE.md) - Architektura komponentów
-- [**Styling Guide**](./components/STYLING.md) - Atomic CSS i stylowanie
-- [**Best Practices**](./components/BEST_PRACTICES.md) - Najlepsze praktyki
+- Zobacz dostępne komponenty w [katalogu komponentów](./components/)
 
 ### ⚡ [Performance](./performance/)
-- [**Bundle Optimization**](./performance/BUNDLE.md) - Optymalizacja rozmiaru bundla
-- [**Build-time Magic**](./performance/BUILD_TIME.md) - Optymalizacje build-time
-- [**Runtime Performance**](./performance/RUNTIME.md) - Wydajność runtime
+- Zobacz metryki wydajności w [katalogu performance](./performance/)
 
 ### 🛠️ [Development](./development/)
-- [**Setup Guide**](./development/SETUP.md) - Konfiguracja środowiska
-- [**VS Code Config**](./development/VSCODE.md) - Konfiguracja VS Code
-- [**Tooling**](./development/TOOLING.md) - Narzędzia deweloperskie
+- Zobacz przewodnik deweloperski w [katalogu development](./development/)
 
 ## 🚀 Quick Start
 
@@ -55,8 +47,6 @@ npm run build
 
 - [GitHub Repository](https://github.com/your-org/nanolux)
 - [Storybook Demo](https://your-org.github.io/nanolux)
-- [Performance Benchmarks](./performance/BENCHMARKS.md)
-- [Migration Guide](./migration/MIGRATION.md)
 
 ---
 

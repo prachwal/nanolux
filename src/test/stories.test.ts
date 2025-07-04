@@ -4,11 +4,11 @@ import { describe, test, expect } from 'vitest'
 import * as ButtonStories from '../components/Button/Button.stories'
 import * as CardStories from '../components/Card/Card.stories'
 import * as LogoStories from '../components/Logo/Logo.stories'
-import * as AppHeaderStories from '../components/AppHeader/AppHeader.stories'
-import * as CounterDemoStories from '../components/CounterDemo/CounterDemo.stories'
-import * as FeatureListStories from '../components/FeatureList/FeatureList.stories'
-import * as BundleInfoStories from '../components/BundleInfo/BundleInfo.stories'
-import * as ButtonShowcaseStories from '../components/ButtonShowcase/ButtonShowcase.stories'
+import * as AppHeaderStories from '../examples/AppHeader/AppHeader.stories'
+import * as CounterDemoStories from '../examples/CounterDemo/CounterDemo.stories'
+import * as FeatureListStories from '../examples/FeatureList/FeatureList.stories'
+import * as BundleInfoStories from '../examples/BundleInfo/BundleInfo.stories'
+import * as ButtonShowcaseStories from '../examples/ButtonShowcase/ButtonShowcase.stories'
 
 describe('Storybook Stories Tests', () => {
   describe('Button Stories', () => {

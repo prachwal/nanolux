@@ -1,5 +1,5 @@
 import { useState } from 'preact/hooks'
-import { Button } from '../index'
+import { Button } from '../../components'
 import './CounterDemo.css'
 
 interface CounterDemoProps {

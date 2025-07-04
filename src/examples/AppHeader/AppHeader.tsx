@@ -1,4 +1,4 @@
-import Logo from '../Logo/Logo'
+import { Logo } from '../../components'
 import { JSX } from 'preact'
 import './AppHeader.css'
 

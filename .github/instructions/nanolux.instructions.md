@@ -355,198 +355,13 @@ if (process.env.NODE_ENV === 'development') {
 ```
 
 ## Struktura Komponentów
-- **Folder per component**: Wszystkie pliki komponentu w jednym folderze
-- **Co-located files**: Kod, style, testy, stories razem
-- **Automatyczna dokumentacja**: Z TypeScript types i JSDoc
+
+> **📋 Szczegółowe wytyczne**: Zobacz [components.instructions.md](./components.instructions.md) dla kompletnych standardów rozwoju komponentów.
+
+- **Component-first**: jeden plik = jeden komponent
+- **Build-time magic**: maksimum pracy w build time
+- **Atomic CSS**: performance-first styling z zero runtime overhead
 - **Stories jako testy**: Storybook z testing utilities
-- **Zero config**: Automatyczne wykrywanie i ładowanie
-
-```
-src/
-  components/
-    Button/
-      Button.tsx          # Główny komponent
-      Button.css          # Style (opcjonalnie)
-      Button.stories.tsx  # Stories + visual tests
-      Button.test.tsx     # Unit tests (opcjonalnie)
-      index.ts           # Re-export
-    Card/
-      Card.tsx
-      Card.css
-      Card.stories.tsx
-      index.ts
-```
-
-```tsx
-// Button/Button.tsx
-interface ButtonProps {
-  /** Wariant przycisku */
-  variant?: 'primary' | 'secondary' | 'danger'
-  /** Rozmiar przycisku */
-  size?: 'sm' | 'md' | 'lg'
-  /** Custom kolor tła */
-  bg?: string
-  /** Custom kolor tekstu */
-  color?: string
-  /** Czy przycisk jest disabled */
-  disabled?: boolean
-  /** Zawartość przycisku */
-  children: ComponentChildren
-  /** Callback onClick */
-  onClick?: (e: MouseEvent) => void
-}
-
-/**
- * Uniwersalny przycisk z pełną parametryzacją
- * @example
- * <Button variant="primary" size="lg">Click me</Button>
- * <Button bg="#ff6b6b" color="white">Custom</Button>
- */
-export default function Button({ 
-  variant, 
-  size = 'md', 
-  bg, 
-  color, 
-  disabled,
-  children, 
-  ...props 
-}: ButtonProps) {
-  const baseClass = `btn btn-${size}`
-  const variantClass = variant ? ` btn-${variant}` : ''
-  const customStyle = bg || color ? `--btn-bg: ${bg}; --btn-color: ${color}` : ''
-  
-  return (
-    <button 
-      class={baseClass + variantClass} 
-      style={customStyle}
-      disabled={disabled}
-      {...props}
-    >
-      {children}
-    </button>
-  )
-}
-```
-
-```tsx
-// Button/Button.stories.tsx
-import Button from './Button'
-import { expect } from '@storybook/test'
-import { within, userEvent } from '@storybook/testing-library'
-
-export default {
-  title: 'Components/Button',
-  component: Button,
-  parameters: {
-    docs: {
-      description: {
-        component: 'Uniwersalny przycisk z pełną parametryzacją stylów'
-      }
-    }
-  }
-}
-
-// Stories służą jako dokumentacja wizualna
-export const Primary = {
-  args: {
-    variant: 'primary',
-    children: 'Primary Button'
-  }
-}
-
-export const AllSizes = {
-  render: () => (
-    <div style="display: flex; gap: 8px; align-items: center;">
-      <Button variant="primary" size="sm">Small</Button>
-      <Button variant="primary" size="md">Medium</Button>
-      <Button variant="primary" size="lg">Large</Button>
-    </div>
-  )
-}
-
-export const CustomColors = {
-  render: () => (
-    <div style="display: flex; gap: 8px;">
-      <Button bg="#ff6b6b" color="white">Custom Red</Button>
-      <Button bg="#4ecdc4" color="white">Custom Teal</Button>
-      <Button bg="#45b7d1" color="white">Custom Blue</Button>
-    </div>
-  )
-}
-
-// Stories z testami - automatyczne testy wizualne
-export const InteractiveTest = {
-  args: {
-    variant: 'primary',
-    children: 'Click me'
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const button = canvas.getByRole('button')
-    
-    // Test: przycisk jest widoczny
-    await expect(button).toBeInTheDocument()
-    
-    // Test: przycisk ma odpowiednie klasy
-    await expect(button).toHaveClass('btn', 'btn-md', 'btn-primary')
-    
-    // Test: przycisk reaguje na klik
-    await userEvent.click(button)
-    
-    // Test: przycisk może być disabled
-    button.disabled = true
-    await expect(button).toBeDisabled()
-  }
-}
-
-// Performance test - rozmiar bundla
-export const BundleSize = {
-  parameters: {
-    docs: {
-      description: {
-        story: 'Komponent powinien mieć minimalny wpływ na rozmiar bundla'
-      }
-    }
-  }
-}
-```
-
-```css
-/* Button/Button.css */
-.btn {
-  padding: var(--btn-padding, 8px 16px);
-  background: var(--btn-bg, #007bff);
-  color: var(--btn-color, white);
-  border: var(--btn-border, none);
-  border-radius: var(--btn-radius, 4px);
-  cursor: pointer;
-  font-family: inherit;
-  font-size: inherit;
-  transition: opacity 0.2s ease;
-}
-
-.btn:hover:not(:disabled) {
-  opacity: 0.9;
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-sm { --btn-padding: 4px 8px; font-size: 0.875rem; }
-.btn-lg { --btn-padding: 12px 24px; font-size: 1.125rem; }
-
-.btn-primary { --btn-bg: #007bff; --btn-color: white; }
-.btn-secondary { --btn-bg: #6c757d; --btn-color: white; }
-.btn-danger { --btn-bg: #dc3545; --btn-color: white; }
-```
-
-```ts
-// Button/index.ts
-export { default } from './Button'
-export type { ButtonProps } from './Button'
-```
 
 ## Narzędzia Build-time
 - **Storybook**: Automatyczna dokumentacja + visual testing
@@ -937,3 +752,308 @@ docs/
 - **Stories**: Serve as both docs i tests
 - **TypeScript**: Single source of truth dla API
 - **Performance**: Automated bundle size tracking
+
+## 📋 Documentation Synchronization Strategy
+
+### Filozofia Synchronizacji
+NanoLux stosuje **proaktywną strategię** aktualizacji dokumentacji aby unikać desynchronizacji z kodem:
+
+- **Automatyzacja > Manual work**: 80% aktualizacji ma być automatyczna
+- **Code-driven docs**: Dokumentacja generowana z kodu (TypeScript, Stories, Tests)
+- **Fail-fast principle**: Build fails jeśli dokumentacja nie jest sync z kodem
+- **Documentation checkpoints**: Obowiązkowe punkty weryfikacji w workflow
+
+### Typy Dokumentacji i Strategia Aktualizacji
+
+#### 1. **Auto-Generated Documentation** (80% - KRYTYCZNE)
+> **Zasada**: Te dokumenty NIGDY nie są edytowane ręcznie
+
+**Pliki**:
+- `docs/api/*.md` - API Reference z TypeScript interfaces
+- `docs/examples/*.md` - Examples z Storybook stories
+- `docs/metrics/*.md` - Performance metrics z bundle analysis
+- Komponenty `docs/components/*.md` - Sekcje: API Reference, Bundle Metrics, Test Coverage
+
+**Trigger aktualizacji**:
+```bash
+# Automatycznie przy każdej zmianie kodu
+npm run docs:generate      # Pre-commit hook
+npm run docs:validate      # CI pipeline
+npm run docs:deploy        # Post-merge
+```
+
+**Monitoring**:
+- Pre-commit: Block commit jeśli auto-docs są outdated
+- CI/CD: Fail build jeśli generated docs nie match z kodem
+- GitHub Actions: Auto-PR z aktualizacjami docs
+
+#### 2. **Semi-Manual Documentation** (15% - WAŻNE)
+> **Zasada**: Manual content z automatyczną walidacją
+
+**Pliki**:
+- `docs/components/*.md` - Implementation Details, Usage Examples, Best Practices
+- `docs/IMPLEMENTATION_ROADMAP.md` - Progress tracking (automatyczne checklisty)
+- `docs/standards/*.md` - Standards i guidelines
+- `docs/phases/*.md` - Phase documentation z metryki sync
+
+**Trigger aktualizacji**:
+- **Nowy komponent**: Template auto-generation + manual content fill
+- **API changes**: Validation hooks sprawdzają czy examples dalej działają
+- **Performance changes**: Auto-update bundle size w dokumentacji
+- **Test changes**: Auto-update coverage metrics
+
+**Checklist aktualizacji**:
+```bash
+# Po dodaniu nowego komponentu
+1. npm run component:create ComponentName  # Auto-generates template
+2. Manual: Fill implementation details
+3. npm run docs:validate:component ComponentName
+4. git commit triggers docs validation
+
+# Po zmianie API
+1. TypeScript compilation sprawdza API compatibility
+2. Storybook build sprawdza czy examples działają
+3. Tests sprawdzają czy documentation examples są valid
+4. Bundle analysis sprawdza size limits
+```
+
+#### 3. **Manual Documentation** (5% - OPCJONALNE)
+> **Zasada**: Pełna kontrola z okresową walidacją
+
+**Pliki**:
+- `docs/development/README.md` - Development setup
+- `docs/ci-cd/README.md` - CI/CD procedures
+- `docs/INDEX.md` - Main documentation index
+- `README.md` - Project overview
+
+**Trigger aktualizacji**:
+- Manual review co sprint/release
+- Validation links i references
+- Update przy major changes w projekcie
+
+### Workflow Synchronizacji
+
+#### Pre-commit Hooks (AUTOMATYCZNE)
+```bash
+#!/bin/bash
+# .husky/pre-commit
+
+# 1. Validate TypeScript interfaces → API docs
+npm run docs:validate:api
+
+# 2. Validate Storybook stories → Examples
+npm run docs:validate:examples  
+
+# 3. Check bundle size changes → Metrics
+npm run docs:validate:metrics
+
+# 4. Update component documentation
+npm run docs:update:components
+
+# 5. Validate internal links
+npm run docs:validate:links
+
+# Fail commit if any validation fails
+```
+
+#### CI/CD Pipeline (AUTOMATYCZNE)
+```yaml
+# .github/workflows/docs-sync.yml
+name: Documentation Sync
+
+on: [push, pull_request]
+
+jobs:
+  docs-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate API Documentation
+        run: npm run docs:validate:comprehensive
+        
+      - name: Check Bundle Size Documentation
+        run: npm run docs:validate:bundle-sizes
+        
+      - name: Validate Examples in Documentation
+        run: npm run docs:validate:examples:all
+        
+      - name: Generate Updated Documentation
+        run: npm run docs:generate:all
+        
+      - name: Check for Documentation Drift
+        run: git diff --exit-code docs/
+        
+      - name: Auto-commit Documentation Updates
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add docs/
+          git commit -m "docs: Auto-update documentation" || exit 0
+          git push
+```
+
+#### Post-Development Checklist (MANUAL)
+Po każdej większej zmianie w kodzie, developer sprawdza:
+
+```markdown
+## Documentation Update Checklist
+
+### ✅ Component Changes
+- [ ] API changes reflected in component documentation
+- [ ] Bundle size metrics updated
+- [ ] Usage examples still valid
+- [ ] Test coverage metrics updated
+- [ ] Storybook stories dokumentują nowe features
+
+### ✅ Project Structure Changes  
+- [ ] File paths updated w INDEX.md
+- [ ] Navigation links sprawdzone
+- [ ] Templates updated if needed
+- [ ] Development setup documentation current
+
+### ✅ Performance Changes
+- [ ] Bundle size limits updated w standards
+- [ ] Performance benchmarks documented
+- [ ] New optimization techniques documented
+- [ ] Roadmap progress updated
+
+### ✅ Quality Assurance
+- [ ] All internal links working
+- [ ] No broken references w documentation
+- [ ] Auto-generated sections current
+- [ ] Manual sections reviewed for accuracy
+```
+
+### Automatyzacja Scripts
+
+#### Package.json Scripts
+```json
+{
+  "scripts": {
+    "docs:generate": "npm run docs:api && npm run docs:examples && npm run docs:metrics",
+    "docs:api": "typedoc --out docs/api src/components",
+    "docs:examples": "node scripts/extract-stories-to-docs.js",
+    "docs:metrics": "node scripts/generate-bundle-metrics.js",
+    "docs:validate": "npm run docs:validate:api && npm run docs:validate:examples && npm run docs:validate:links",
+    "docs:validate:api": "node scripts/validate-api-docs.js",
+    "docs:validate:examples": "node scripts/validate-examples.js", 
+    "docs:validate:links": "node scripts/validate-internal-links.js",
+    "docs:validate:metrics": "node scripts/validate-bundle-metrics.js",
+    "docs:update:components": "node scripts/update-component-docs.js",
+    "component:create": "node scripts/create-component-template.js"
+  }
+}
+```
+
+#### Validation Scripts (examples)
+```javascript
+// scripts/validate-api-docs.js
+const fs = require('fs')
+const path = require('path')
+
+// Compare TypeScript interfaces with documented APIs
+function validateAPIDocumentation() {
+  const components = getComponentList()
+  
+  for (const component of components) {
+    const tsInterface = extractTypeScriptInterface(component)
+    const docAPI = extractDocumentedAPI(component)
+    
+    if (!interfacesMatch(tsInterface, docAPI)) {
+      console.error(`❌ API documentation out of sync for ${component}`)
+      process.exit(1)
+    }
+  }
+  
+  console.log('✅ All API documentation is synchronized')
+}
+
+// scripts/validate-examples.js  
+function validateExamples() {
+  const examples = extractExamplesFromDocs()
+  
+  for (const example of examples) {
+    if (!exampleCompiles(example)) {
+      console.error(`❌ Example not valid: ${example.file}:${example.line}`)
+      process.exit(1)
+    }
+  }
+  
+  console.log('✅ All documentation examples are valid')
+}
+```
+
+### Integration Points
+
+> **📋 Component Creation**: Szczegółowy workflow w [components.instructions.md](./components.instructions.md)
+
+#### 1. **Bundle Size Monitoring**
+```javascript
+// scripts/generate-bundle-metrics.js
+// Updates bundle size in:
+// - docs/components/*.md (individual component sizes)
+// - docs/IMPLEMENTATION_ROADMAP.md (phase totals)  
+// - docs/performance/README.md (optimization metrics)
+```
+
+#### 2. **Test Coverage Integration**
+```javascript
+// Updates test metrics in:
+// - docs/components/*.md (component test counts)
+// - docs/testing/README.md (overall coverage)
+// - docs/IMPLEMENTATION_ROADMAP.md (phase coverage)
+```
+
+### Error Prevention
+
+#### 1. **Broken Reference Detection**
+- Link validation w wszystkich markdown files
+- Image reference checking
+- Component example validation
+
+#### 2. **Consistency Checks**
+- Bundle size consistency między dokumentami
+- API signature consistency
+- Version number consistency
+
+#### 3. **Completeness Validation**
+- Każdy komponent ma dokumentację
+- Każdy public API jest dokumentowany
+- Każdy example jest testowany
+
+### Maintenance Schedule
+
+#### Daily (Automated)
+- API documentation sync
+- Example validation  
+- Bundle size updates
+- Link checking
+
+#### Weekly (Manual Review)
+- Documentation completeness audit
+- Manual sections review
+- Navigation structure optimization
+- Performance documentation updates
+
+#### Monthly (Comprehensive)
+- Documentation architecture review
+- Template updates
+- Automation script optimization
+- Documentation quality metrics
+
+### Success Metrics
+
+#### Synchronization KPIs
+- **API Drift**: 0 outdated API descriptions
+- **Example Health**: 100% working examples in docs
+- **Link Health**: 0 broken internal links
+- **Bundle Accuracy**: <1% deviation w documented sizes
+- **Coverage Accuracy**: Real-time test coverage metrics
+
+#### Developer Experience KPIs  
+- **Doc Update Time**: <2min dla component doc update
+- **New Component Setup**: <5min z full documentation
+- **Discovery Time**: <1min dla finding relevant docs
+- **Validation Feedback**: <30s dla docs validation results
+
+Ten system zapewnia że dokumentacja NanoLux nigdy nie zostaje w tyle za kodem i pozostaje reliable source of truth dla developerów.

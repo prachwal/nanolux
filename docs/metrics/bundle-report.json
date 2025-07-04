@@ -1,0 +1,83 @@
+{
+  "timestamp": "2025-07-04T16:49:58.106Z",
+  "bundle": {
+    "total": 0,
+    "javascript": 0,
+    "css": 0,
+    "assets": 0
+  },
+  "components": [
+    {
+      "name": "Typography",
+      "size": 11321,
+      "sizeFormatted": "11.1 KB"
+    },
+    {
+      "name": "Stack",
+      "size": 6425,
+      "sizeFormatted": "6.3 KB"
+    },
+    {
+      "name": "Logo",
+      "size": 27004,
+      "sizeFormatted": "26.4 KB"
+    },
+    {
+      "name": "Input",
+      "size": 10012,
+      "sizeFormatted": "9.8 KB"
+    },
+    {
+      "name": "Flex",
+      "size": 7457,
+      "sizeFormatted": "7.3 KB"
+    },
+    {
+      "name": "Card",
+      "size": 11503,
+      "sizeFormatted": "11.2 KB"
+    },
+    {
+      "name": "Button",
+      "size": 16471,
+      "sizeFormatted": "16.1 KB"
+    }
+  ],
+  "recommendations": [
+    {
+      "type": "info",
+      "message": "Component Typography (11.1 KB) is relatively large",
+      "action": "Consider splitting into smaller components"
+    },
+    {
+      "type": "info",
+      "message": "Component Stack (6.3 KB) is relatively large",
+      "action": "Consider splitting into smaller components"
+    },
+    {
+      "type": "info",
+      "message": "Component Logo (26.4 KB) is relatively large",
+      "action": "Consider splitting into smaller components"
+    },
+    {
+      "type": "info",
+      "message": "Component Input (9.8 KB) is relatively large",
+      "action": "Consider splitting into smaller components"
+    },
+    {
+      "type": "info",
+      "message": "Component Flex (7.3 KB) is relatively large",
+      "action": "Consider splitting into smaller components"
+    },
+    {
+      "type": "info",
+      "message": "Component Card (11.2 KB) is relatively large",
+      "action": "Consider splitting into smaller components"
+    },
+    {
+      "type": "info",
+      "message": "Component Button (16.1 KB) is relatively large",
+      "action": "Consider splitting into smaller components"
+    }
+  ]
+}

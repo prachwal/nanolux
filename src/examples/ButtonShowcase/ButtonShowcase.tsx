@@ -1,4 +1,4 @@
-import { Button } from '../index'
+import { Button } from '../../components'
 import { JSX } from 'preact'
 import './ButtonShowcase.css'
 

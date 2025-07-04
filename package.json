@@ -16,7 +16,21 @@
     "test:watch": "vitest --watch",
     "test-storybook": "test-storybook",
     "test:stories": "test-storybook",
-    "test:all": "npm run test && npm run test:stories"
+    "test:all": "npm run test && npm run test:stories",
+    "docs:generate": "npm run docs:api && npm run docs:examples && npm run docs:metrics",
+    "docs:api": "node scripts/generate-api-docs.cjs",
+    "docs:examples": "node scripts/extract-stories-to-docs.cjs",
+    "docs:metrics": "node scripts/generate-bundle-metrics.cjs",
+    "docs:validate": "npm run docs:validate:api && npm run docs:validate:examples && npm run docs:validate:links",
+    "docs:validate:api": "node scripts/validate-api-docs.cjs",
+    "docs:validate:examples": "node scripts/validate-examples.cjs",
+    "docs:validate:links": "node scripts/validate-internal-links.cjs",
+    "docs:validate:metrics": "node scripts/validate-bundle-metrics.cjs",
+    "docs:update:components": "node scripts/update-component-docs.cjs",
+    "docs:update:metrics": "node scripts/validate-bundle-metrics.cjs update",
+    "docs:report:links": "node scripts/validate-internal-links.cjs report",
+    "component:create": "node scripts/create-component-template.cjs",
+    "prepare": "husky"
   },
   "dependencies": {
     "preact": "^10.26.9"
@@ -35,6 +49,7 @@
     "@types/react": "^19.1.8",
     "@vitest/coverage-v8": "^3.2.4",
     "@vitest/ui": "^3.2.4",
+    "glob": "^11.0.3",
     "jsdom": "^26.1.0",
     "playwright": "^1.49.1",
     "storybook": "^8.4.7",

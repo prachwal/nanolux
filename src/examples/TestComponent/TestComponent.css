@@ -1,0 +1,35 @@
+.testcomponent {
+  padding: var(--testcomponent-padding, 12px 16px);
+  background: var(--testcomponent-bg, transparent);
+  color: var(--testcomponent-color, inherit);
+  border: var(--testcomponent-border, 1px solid #e9ecef);
+  border-radius: var(--testcomponent-radius, 4px);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.testcomponent:hover:not(.testcomponent-disabled) {
+  opacity: 0.9;
+}
+
+.testcomponent-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Sizes */
+.testcomponent-sm { --testcomponent-padding: 8px 12px; font-size: 0.875rem; }
+.testcomponent-lg { --testcomponent-padding: 16px 24px; font-size: 1.125rem; }
+
+/* Variants */
+.testcomponent-primary { 
+  --testcomponent-bg: #007bff; 
+  --testcomponent-color: white; 
+  --testcomponent-border: none;
+}
+
+.testcomponent-secondary { 
+  --testcomponent-bg: #6c757d; 
+  --testcomponent-color: white; 
+  --testcomponent-border: none;
+}

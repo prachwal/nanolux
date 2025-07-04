@@ -275,8 +275,7 @@ function App() {
 ```
 
 ## Next Steps
-- [Customization Guide](./customization.md)
-- [Best Practices](./best-practices.md)
+- Zobacz inne dokumenty w `/docs/standards/`
 ```
 
 ### 2. Architecture Decisions  

@@ -6,18 +6,6 @@ Kompletna dokumentacja systemu testów w NanoLux.
 
 ### [TEST_SETUP.md](./TEST_SETUP.md)
 **Problem z Jest vs Vitest** - Rozwiązanie konfliktów VS Code extensions i konfiguracja wyłącznie Vitest.
-
-### [TESTING_GUIDE.md](./TESTING_GUIDE.md) *(coming soon)*
-Kompletny przewodnik po testowaniu komponentów:
-- Unit testy z Vitest
-- Component testing z @testing-library/preact
-- Integration testy
-- Visual testing ze Storybook
-
-### [PERFORMANCE.md](./PERFORMANCE.md) *(coming soon)*
-Testy wydajności i monitoring bundle size:
-- Bundle size testing
-- Performance benchmarks
 - Rendering performance
 - Memory usage testing
 

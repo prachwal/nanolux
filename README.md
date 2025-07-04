@@ -37,20 +37,29 @@ npm run build
 
 ```
 src/
-├── components/           # Komponenty z co-located files
+├── components/           # Core komponenty (production-ready)
 │   ├── Button/
 │   │   ├── Button.tsx           # Główny komponent
 │   │   ├── Button.css           # Atomic CSS styles
 │   │   ├── Button.stories.tsx   # Storybook stories
 │   │   ├── Button.test.tsx      # Vitest tests
 │   │   └── index.ts            # Re-export
-│   └── CounterDemo/
+│   ├── Typography/       # Heading, Text components
+│   ├── Card/            # Container component
+│   └── [...]            # Stack, Flex, Input, Logo
+├── examples/            # Demo & showcase komponenty
+│   ├── CounterDemo/     # Example: counter z hooks
+│   ├── ButtonShowcase/  # Example: wszystkie warianty Button
+│   ├── AppHeader/       # Example: header z navigation
+│   └── [...]           # FeatureList, BundleInfo, itp.
 ├── styles/              # Atomic CSS system
 │   └── atomic.css
 └── test/               # Test utilities & setup
     ├── setup.ts
     └── utils.ts
 ```
+
+> **Nota**: Komponenty w `src/components/` to core library. Komponenty w `src/examples/` służą do demonstracji i nie są exportowane w main bundle.
 
 ## 🧪 Testing System
 

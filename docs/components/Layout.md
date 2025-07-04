@@ -145,6 +145,7 @@ Both components are pure CSS wrappers that apply atomic classes dynamically.
 
 #### Flex Implementation
 ```tsx
+// Przykład implementacji - nie do użycia bezpośrednio
 function Flex({ direction, align, justify, gap, wrap, children, ...props }) {
   const classes = [
     'flex',
@@ -166,6 +167,7 @@ function Flex({ direction, align, justify, gap, wrap, children, ...props }) {
 
 #### Stack Implementation
 ```tsx
+// Przykład implementacji - nie do użycia bezpośrednio
 function Stack({ direction = 'vertical', spacing, align, children, ...props }) {
   const isVertical = direction === 'vertical'
   const classes = [
@@ -270,7 +272,7 @@ function Stack({ direction = 'vertical', spacing, align, children, ...props }) {
 <Flex direction="column" gap={24}>
   <Stack spacing={16}>
     <Heading level={1}>Dashboard</Heading>
-    <Text muted>Welcome back!</Text>
+    <Text>Welcome back!</Text>
   </Stack>
   
   <Flex wrap gap={20}>
@@ -284,14 +286,15 @@ function Stack({ direction = 'vertical', spacing, align, children, ...props }) {
 ### Responsive Composition
 ```tsx
 <Flex direction="column" gap={16}>
-  {/* Mobile: stacked, Desktop: side-by-side */}
   <Flex wrap justify="between" gap={12}>
     <Input placeholder="Search..." />
     <Button variant="primary">Filter</Button>
   </Flex>
   
   <Stack spacing={12}>
-    {items.map(item => <Card key={item.id}>{item.content}</Card>)}
+    <Card>Item 1</Card>
+    <Card>Item 2</Card>
+    <Card>Item 3</Card>
   </Stack>
 </Flex>
 ```

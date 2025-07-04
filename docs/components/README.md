@@ -1,55 +1,48 @@
-# 🎨 Components Documentation
+# Components Documentation
 
-Architektura i najlepsze praktyki dla komponentów NanoLux.
+Complete documentation for all NanoLux components.
 
-## � Phase 1: Foundation Components
+## Available Components
 
-### ✅ Core Components (Complete)
-- **[Button](./Button.md)** - Enhanced button with 5 variants, 4 sizes, loading states (~512B)
-- **[Input](./Input.md)** - Complete input/text field with types, icons, validation (~400B)  
-- **[Card](./Card.md)** - Versatile container with variants and theming (~300B)
-- **[Layout](./Layout.md)** - Flex & Stack helpers for atomic layouts (~100B)
-- **[Typography](./Typography.md)** - Heading & Text system with semantic hierarchy (~200B)
-- **[Logo](./Logo.md)** - Pre-existing logo component, fully validated (~150B)
+### [Typography](./Typography.md)
 
-**Total Phase 1 Bundle**: ~2.5KB | **Test Coverage**: 233/233 passed | **Stories**: 50+ interactive examples
+Complete documentation including API reference, examples, and performance metrics.
 
-## 📑 Documentation Structure
+### [Stack](./Stack.md)
 
-### Component Architecture
-- **Folder per Component** - Wszystko w jednym miejscu
-- **Co-located Files** - Kod, style, testy, stories razem
-- **TypeScript Optional** - Pełne wsparcie, ale nie wymagane
-- **Automatic Documentation** - Z TypeScript types i JSDoc
+Complete documentation including API reference, examples, and performance metrics.
 
-### Styling Approach
-- **Atomic CSS First** - Preferuj atomic classes
-- **CSS Variables** - Parametryzacja komponentów
-- **Zero Runtime** - Brak JavaScript dla stylów
-- **Build-time Purging** - Tylko używane klasy
+### [Logo](./Logo.md)
 
-### Component Patterns
-- **Preact Syntax** - `class` zamiast `className`
-- **Hook-based Logic** - Funkcyjne komponenty
-- **Props Interface** - Strict TypeScript typing
-- **Performance First** - Memoization, useCallback
+Complete documentation including API reference, examples, and performance metrics.
 
-## 🏗️ Struktura Komponentu
+### [Input](./Input.md)
 
-```
-Button/
-  ├── Button.tsx          # Główny komponent
-  ├── Button.css          # Style (opcjonalne)
-  ├── Button.stories.tsx  # Stories + visual tests
-  ├── Button.test.tsx     # Unit tests
-  ├── Button.examples.tsx # Examples showcase
-  └── index.ts           # Re-export
-```
+Complete documentation including API reference, examples, and performance metrics.
 
-## 🎯 Best Practices
+### [Flex](./Flex.md)
 
-1. **Atomic First** - Używaj atomic classes
-2. **Performance Budgets** - Monitor bundle size
-3. **User-Centric** - Testuj jak użytkownik
-4. **Type Safety** - TypeScript interfaces
-5. **Documentation** - Stories jako docs
+Complete documentation including API reference, examples, and performance metrics.
+
+### [Card](./Card.md)
+
+Complete documentation including API reference, examples, and performance metrics.
+
+### [Button](./Button.md)
+
+Complete documentation including API reference, examples, and performance metrics.
+
+## Documentation Structure
+
+Each component documentation includes:
+
+- **API Reference**: TypeScript interfaces and props
+- **Examples**: Interactive examples from Storybook
+- **Bundle Information**: Size and performance metrics
+- **Test Coverage**: Testing information
+- **Implementation Notes**: Best practices and usage guidelines
+
+---
+
+*This index is automatically maintained.*
+*Last updated: 2025-07-04T17:13:34.942Z*
