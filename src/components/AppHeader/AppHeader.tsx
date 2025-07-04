@@ -30,14 +30,14 @@ export default function AppHeader({
     <header className={headerClass} {...props}>
       <div className="app-header-logos">
         <Logo 
-          src="/vite.svg" 
+          src="./vite.svg" 
           alt="Vite logo" 
           variant="vite"
           href="https://vite.dev"
           target="_blank"
         />
         <Logo 
-          src="/preact.svg" 
+          src="./preact.svg" 
           alt="Preact logo" 
           variant="preact"
           href="https://preactjs.com"

@@ -4,12 +4,12 @@ module.exports = {
   setup() {
     // Add any global setup needed for your tests
   },
-  async preRender(page, context) {
-    // Pre-render hook - runs before each story
+  async preVisit(page, context) {
+    // Pre-visit hook - runs before each story
     await page.goto('about:blank');
   },
-  async postRender(page, context) {
-    // Post-render hook - runs after each story
+  async postVisit(page, context) {
+    // Post-visit hook - runs after each story
     const storyContext = await getStoryContext(page, context);
     
     // You can add custom assertions here

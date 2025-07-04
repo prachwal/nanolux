@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/preact'
+import { expect } from '@storybook/test'
+import { within, userEvent } from '@storybook/testing-library'
 import Logo from './Logo'
 
 const meta: Meta<typeof Logo> = {
@@ -82,7 +84,7 @@ export const AllVariants: Story = {
 
 export const WithLink: Story = {
   args: {
-    src: '/vite.svg',
+    src: './vite.svg',
     alt: 'Vite logo with link',
     variant: 'vite',
     href: 'https://vitejs.dev',
@@ -94,6 +96,23 @@ export const WithLink: Story = {
         story: 'Logo z linkiem otwieranym w nowej karcie'
       }
     }
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const logoLink = canvas.getByRole('link')
+    
+    // Test: link jest widoczny
+    await expect(logoLink).toBeInTheDocument()
+    
+    // Test: link ma poprawny href
+    await expect(logoLink).toHaveAttribute('href', 'https://vitejs.dev')
+    
+    // Test: link otwiera się w nowej karcie
+    await expect(logoLink).toHaveAttribute('target', '_blank')
+    
+    // Test: logo ma poprawny alt text
+    const logoImg = canvas.getByAltText('Vite logo with link')
+    await expect(logoImg).toBeInTheDocument()
   }
 }
 
@@ -164,5 +183,36 @@ export const ResponsiveLogo: Story = {
         story: 'Responsywne logo dla różnych urządzeń'
       }
     }
+  }
+}
+
+// Dodaj nowy story z testem interaktywności
+export const InteractiveTest: Story = {
+  args: {
+    src: './preact.svg',
+    alt: 'Preact logo test',
+    variant: 'preact',
+    href: 'https://preactjs.com',
+    target: '_blank'
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    
+    // Test: komponent się renderuje
+    const logo = canvas.getByAltText('Preact logo test')
+    await expect(logo).toBeInTheDocument()
+    
+    // Test: logo ma poprawne klasy CSS
+    await expect(logo).toHaveClass('logo', 'logo-preact')
+    
+    // Test: logo jest w linku
+    const logoLink = canvas.getByRole('link')
+    await expect(logoLink).toContainElement(logo)
+    
+    // Test: kliknięcie w logo (symulacja)
+    await userEvent.hover(logo)
+    
+    // Test: logo ma poprawny src
+    await expect(logo).toHaveAttribute('src', './preact.svg')
   }
 }

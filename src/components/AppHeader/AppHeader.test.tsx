@@ -52,7 +52,7 @@ describe('AppHeader Component', () => {
     expect(viteLink).toBeInTheDocument()
     expect(viteLink).toHaveAttribute('target', '_blank')
     expect(viteImg).toBeInTheDocument()
-    expect(viteImg).toHaveAttribute('src', '/vite.svg')
+    expect(viteImg).toHaveAttribute('src', './vite.svg')
   })
 
   test('renders Preact logo with correct properties', () => {
@@ -63,7 +63,7 @@ describe('AppHeader Component', () => {
     expect(preactLink).toBeInTheDocument()
     expect(preactLink).toHaveAttribute('target', '_blank')
     expect(preactImg).toBeInTheDocument()
-    expect(preactImg).toHaveAttribute('src', '/preact.svg')
+    expect(preactImg).toHaveAttribute('src', './preact.svg')
   })
 
   test('renders title with correct class', () => {
