@@ -1,0 +1,186 @@
+/* Navigation - Atomic CSS + Variables */
+.navigation {
+  width: 100%;
+  background: var(--navigation-bg, white);
+  border-bottom: var(--navigation-border, 1px solid #e5e7eb);
+  z-index: var(--navigation-z-index, 50);
+}
+
+.navigation-sticky {
+  position: sticky;
+  top: 0;
+}
+
+.navigation-container {
+  max-width: var(--navigation-max-width, 1200px);
+  margin: 0 auto;
+  padding: var(--navigation-padding, 0 16px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--navigation-height, 64px);
+  gap: var(--navigation-gap, 16px);
+}
+
+/* Brand */
+.navigation-brand {
+  flex-shrink: 0;
+}
+
+.navigation-brand-link,
+.navigation-brand-content {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.navigation-brand-link:hover {
+  opacity: 0.8;
+}
+
+/* Navigation List */
+.navigation-list {
+  display: flex;
+  align-items: center;
+  gap: var(--navigation-item-gap, 8px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  justify-content: var(--navigation-list-justify, center);
+}
+
+.navigation-item {
+  position: relative;
+}
+
+.navigation-link,
+.navigation-text {
+  display: block;
+  padding: var(--navigation-link-padding, 8px 12px);
+  color: var(--navigation-link-color, #374151);
+  text-decoration: none;
+  font-size: var(--navigation-link-size, 0.875rem);
+  font-weight: var(--navigation-link-weight, 500);
+  border-radius: var(--navigation-link-radius, 4px);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.navigation-link:hover {
+  background: var(--navigation-link-hover-bg, #f3f4f6);
+  color: var(--navigation-link-hover-color, #111827);
+}
+
+.navigation-item-active .navigation-link {
+  background: var(--navigation-link-active-bg, #3b82f6);
+  color: var(--navigation-link-active-color, white);
+}
+
+.navigation-item-disabled .navigation-link,
+.navigation-item-disabled .navigation-text {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Content and Actions */
+.navigation-content,
+.navigation-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--navigation-actions-gap, 8px);
+}
+
+/* Variants */
+.navigation-dark {
+  --navigation-bg: #1f2937;
+  --navigation-border: 1px solid #374151;
+  --navigation-link-color: #d1d5db;
+  --navigation-link-hover-bg: #374151;
+  --navigation-link-hover-color: white;
+  --navigation-link-active-bg: #3b82f6;
+  --navigation-link-active-color: white;
+}
+
+.navigation-transparent {
+  --navigation-bg: transparent;
+  --navigation-border: none;
+}
+
+/* Size variants */
+.navigation-sm {
+  --navigation-height: 48px;
+  --navigation-padding: 0 12px;
+  --navigation-gap: 12px;
+  --navigation-item-gap: 4px;
+  --navigation-link-padding: 6px 8px;
+  --navigation-link-size: 0.75rem;
+  --navigation-actions-gap: 6px;
+}
+
+.navigation-lg {
+  --navigation-height: 80px;
+  --navigation-padding: 0 24px;
+  --navigation-gap: 24px;
+  --navigation-item-gap: 12px;
+  --navigation-link-padding: 12px 16px;
+  --navigation-link-size: 1rem;
+  --navigation-actions-gap: 12px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .navigation-container {
+    --navigation-padding: 0 12px;
+    --navigation-gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .navigation-list {
+    --navigation-item-gap: 4px;
+    --navigation-list-justify: flex-start;
+    order: 3;
+    width: 100%;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--navigation-border-color, #e5e7eb);
+  }
+  
+  .navigation-dark .navigation-list {
+    border-top-color: #374151;
+  }
+  
+  .navigation-transparent .navigation-list {
+    border-top: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .navigation-list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+  
+  .navigation-link {
+    --navigation-link-padding: 12px 8px;
+    text-align: center;
+  }
+}
+
+/* Focus styles */
+.navigation-brand-link:focus,
+.navigation-link:focus {
+  outline: 2px solid var(--navigation-focus-color, #3b82f6);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .navigation {
+    display: none;
+  }
+}

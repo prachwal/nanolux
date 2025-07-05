@@ -1,0 +1,95 @@
+/* FormField - Atomic CSS + Variables */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-field-gap, 6px);
+}
+
+/* Label */
+.form-field-label {
+  color: var(--form-field-label-color, #374151);
+  font-size: var(--form-field-label-size, 0.875rem);
+  font-weight: var(--form-field-label-weight, 500);
+  line-height: var(--form-field-label-height, 1.25);
+  margin-bottom: var(--form-field-label-margin, 0);
+}
+
+/* Required indicator */
+.form-field-required {
+  color: var(--form-field-required-color, #dc2626);
+  margin-left: 2px;
+}
+
+/* Input container */
+.form-field-input {
+  position: relative;
+}
+
+/* Help text */
+.form-field-help {
+  color: var(--form-field-help-color, #6b7280);
+  font-size: var(--form-field-help-size, 0.75rem);
+  line-height: var(--form-field-help-height, 1.33);
+  margin-top: var(--form-field-help-margin, 2px);
+}
+
+/* Error message */
+.form-field-error-message {
+  color: var(--form-field-error-color, #dc2626);
+  font-size: var(--form-field-error-size, 0.75rem);
+  line-height: var(--form-field-error-height, 1.33);
+  margin-top: var(--form-field-error-margin, 2px);
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.form-field-error-message::before {
+  content: '⚠';
+  color: var(--form-field-error-icon-color, #dc2626);
+  font-size: var(--form-field-error-icon-size, 0.75rem);
+  line-height: 1;
+  margin-top: 1px;
+}
+
+/* Size variants */
+.form-field-sm {
+  --form-field-gap: 4px;
+  --form-field-label-size: 0.75rem;
+  --form-field-help-size: 0.625rem;
+  --form-field-error-size: 0.625rem;
+}
+
+.form-field-lg {
+  --form-field-gap: 8px;
+  --form-field-label-size: 1rem;
+  --form-field-help-size: 0.875rem;
+  --form-field-error-size: 0.875rem;
+}
+
+/* Error state */
+.form-field-error .form-field-label {
+  color: var(--form-field-label-color-error, #dc2626);
+}
+
+/* Focus state styling for nested inputs */
+.form-field-input input:focus,
+.form-field-input select:focus,
+.form-field-input textarea:focus {
+  outline: none;
+}
+
+/* Common form field spacing */
+.form-field + .form-field {
+  margin-top: var(--form-field-spacing, 16px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .form-field {
+    --form-field-gap: 4px;
+    --form-field-label-size: 0.875rem;
+    --form-field-help-size: 0.75rem;
+    --form-field-error-size: 0.75rem;
+  }
+}

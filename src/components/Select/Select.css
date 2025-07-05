@@ -1,0 +1,138 @@
+/* Select/Dropdown - Atomic CSS + Variables */
+.select {
+  position: relative;
+  width: 100%;
+  min-width: var(--select-min-width, 200px);
+}
+
+/* Select trigger button */
+.select-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--select-padding, 8px 12px);
+  background: var(--select-bg, white);
+  border: var(--select-border, 1px solid #d1d5db);
+  border-radius: var(--select-radius, 6px);
+  color: var(--select-color, #374151);
+  font-family: inherit;
+  font-size: var(--select-font-size, 1rem);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.select-trigger:hover:not(:disabled) {
+  border-color: var(--select-border-hover, #9ca3af);
+}
+
+.select-trigger:focus {
+  outline: none;
+  border-color: var(--select-border-focus, #2563eb);
+  box-shadow: 0 0 0 3px var(--select-shadow-focus, rgba(37, 99, 235, 0.1));
+}
+
+.select-trigger:disabled {
+  background: var(--select-bg-disabled, #f3f4f6);
+  color: var(--select-color-disabled, #9ca3af);
+  cursor: not-allowed;
+}
+
+/* Select value text */
+.select-value {
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Select arrow */
+.select-arrow {
+  margin-left: 8px;
+  font-size: 0.75rem;
+  color: var(--select-arrow-color, #6b7280);
+  transition: transform 0.2s ease;
+}
+
+.select-open .select-arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown container */
+.select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: var(--select-z-index, 1000);
+  margin-top: 4px;
+  background: var(--select-dropdown-bg, white);
+  border: var(--select-dropdown-border, 1px solid #d1d5db);
+  border-radius: var(--select-dropdown-radius, 6px);
+  box-shadow: var(--select-dropdown-shadow, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
+  max-height: var(--select-dropdown-max-height, 200px);
+  overflow-y: auto;
+}
+
+/* Select option */
+.select-option {
+  padding: var(--select-option-padding, 8px 12px);
+  color: var(--select-option-color, #374151);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.select-option:hover:not(.select-option-disabled) {
+  background: var(--select-option-bg-hover, #f3f4f6);
+}
+
+.select-option:focus {
+  outline: none;
+  background: var(--select-option-bg-focus, #e5e7eb);
+}
+
+.select-option-selected {
+  background: var(--select-option-bg-selected, #dbeafe);
+  color: var(--select-option-color-selected, #1d4ed8);
+}
+
+.select-option-disabled {
+  color: var(--select-option-color-disabled, #9ca3af);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Size variants */
+.select-sm {
+  --select-padding: 4px 8px;
+  --select-font-size: 0.875rem;
+  --select-option-padding: 6px 8px;
+}
+
+.select-lg {
+  --select-padding: 12px 16px;
+  --select-font-size: 1.125rem;
+  --select-option-padding: 12px 16px;
+}
+
+/* Error state */
+.select-error .select-trigger {
+  border-color: var(--select-border-error, #dc2626);
+}
+
+.select-error .select-trigger:focus {
+  border-color: var(--select-border-error, #dc2626);
+  box-shadow: 0 0 0 3px var(--select-shadow-error, rgba(220, 38, 38, 0.1));
+}
+
+/* Disabled state */
+.select-disabled .select-trigger {
+  background: var(--select-bg-disabled, #f3f4f6);
+  color: var(--select-color-disabled, #9ca3af);
+  cursor: not-allowed;
+}
+
+.select-disabled .select-arrow {
+  color: var(--select-arrow-color-disabled, #9ca3af);
+}

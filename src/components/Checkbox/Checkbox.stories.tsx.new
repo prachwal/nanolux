@@ -1,0 +1,230 @@
+import Checkbox from './Checkbox'
+import { expect } from '@storybook/test'
+import { within, userEvent } from '@storybook/testing-library'
+import './Checkbox.css'
+
+export default {
+  title: 'Components/Checkbox',
+  component: Checkbox,
+  parameters: {
+    docs: {
+      description: {
+        component: 'Checkbox komponent do wyboru opcji true/false z obsługą stanu indeterminate'
+      }
+    }
+  },
+  argTypes: {
+    size: {
+      control: { type: 'select' },
+      options: ['sm', 'md', 'lg']
+    },
+    checked: {
+      control: 'boolean'
+    },
+    indeterminate: {
+      control: 'boolean'
+    },
+    disabled: {
+      control: 'boolean'
+    },
+    error: {
+      control: 'boolean'
+    }
+  }
+}
+
+// Basic stories
+export const Default = {
+  args: {
+    label: 'Default checkbox'
+  }
+}
+
+export const Checked = {
+  args: {
+    label: 'Checked checkbox',
+    checked: true
+  }
+}
+
+export const Indeterminate = {
+  args: {
+    label: 'Indeterminate checkbox',
+    indeterminate: true
+  }
+}
+
+export const WithoutLabel = {
+  args: {
+    'aria-label': 'Checkbox without visible label'
+  }
+}
+
+export const AllSizes = {
+  render: () => (
+    <div class="flex flex-col gap-16">
+      <Checkbox 
+        size="sm" 
+        label="Small checkbox" 
+        checked={true}
+      />
+      <Checkbox 
+        size="md" 
+        label="Medium checkbox (default)" 
+        checked={true}
+      />
+      <Checkbox 
+        size="lg" 
+        label="Large checkbox" 
+        checked={true}
+      />
+    </div>
+  )
+}
+
+export const States = {
+  render: () => (
+    <div class="flex flex-col gap-16">
+      <Checkbox 
+        label="Normal state" 
+      />
+      <Checkbox 
+        label="Checked state" 
+        checked={true}
+      />
+      <Checkbox 
+        label="Indeterminate state" 
+        indeterminate={true}
+      />
+      <Checkbox 
+        label="Error state" 
+        error={true}
+      />
+      <Checkbox 
+        label="Disabled state" 
+        disabled={true}
+      />
+      <Checkbox 
+        label="Disabled checked" 
+        disabled={true}
+        checked={true}
+      />
+    </div>
+  )
+}
+
+export const FormExample = {
+  render: () => (
+    <form class="max-w-400">
+      <fieldset>
+        <legend class="text-lg font-medium mb-16">Preferences</legend>
+        <div class="flex flex-col gap-12">
+          <Checkbox 
+            name="notifications"
+            value="email"
+            label="Email notifications"
+          />
+          <Checkbox 
+            name="notifications"
+            value="sms"
+            label="SMS notifications"
+          />
+          <Checkbox 
+            name="marketing"
+            value="yes"
+            label="Marketing communications"
+          />
+          <Checkbox 
+            name="terms"
+            value="accepted"
+            label="I accept the terms and conditions"
+            error={true}
+          />
+        </div>
+      </fieldset>
+    </form>
+  )
+}
+
+export const LongLabel = {
+  args: {
+    label: 'This is a very long checkbox label that demonstrates how the component handles text wrapping and maintains proper alignment between the checkbox and the text content.'
+  }
+}
+
+export const CustomColors = {
+  render: () => (
+    <div class="flex flex-col gap-16">
+      <div style="--checkbox-bg-checked: #059669; --checkbox-border-checked: #059669;">
+        <Checkbox 
+          label="Green checkbox" 
+          checked={true}
+        />
+      </div>
+      <div style="--checkbox-bg-checked: #dc2626; --checkbox-border-checked: #dc2626;">
+        <Checkbox 
+          label="Red checkbox" 
+          checked={true}
+        />
+      </div>
+      <div style="--checkbox-bg-checked: #7c3aed; --checkbox-border-checked: #7c3aed;">
+        <Checkbox 
+          label="Purple checkbox" 
+          checked={true}
+        />
+      </div>
+    </div>
+  )
+}
+
+// Interactive story with tests
+export const InteractiveTest = {
+  args: {
+    label: 'Click to test'
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const checkbox = canvas.getByRole('checkbox')
+    const label = canvas.getByText('Click to test')
+    
+    // Test: checkbox jest widoczny
+    await expect(checkbox).toBeInTheDocument()
+    await expect(checkbox).not.toBeChecked()
+    
+    // Test: label jest widoczny i połączony
+    await expect(label).toBeInTheDocument()
+    
+    // Test: kliknięcie w checkbox zaznacza go
+    await userEvent.click(checkbox)
+    await expect(checkbox).toBeChecked()
+    
+    // Test: kliknięcie w label też działa
+    await userEvent.click(label)
+    await expect(checkbox).not.toBeChecked()
+    
+    // Test: keyboard navigation
+    checkbox.focus()
+    await userEvent.keyboard(' ')
+    await expect(checkbox).toBeChecked()
+  }
+}
+
+export const IndeterminateTest = {
+  args: {
+    label: 'Indeterminate test',
+    indeterminate: true
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const checkbox = canvas.getByRole('checkbox') as HTMLInputElement
+    
+    // Test: checkbox ma stan indeterminate
+    await expect(checkbox.indeterminate).toBe(true)
+    await expect(checkbox).not.toBeChecked()
+    
+    // Test: kliknięcie zmienia na checked
+    await userEvent.click(checkbox)
+    await expect(checkbox.indeterminate).toBe(false)
+    await expect(checkbox).toBeChecked()
+  }
+}

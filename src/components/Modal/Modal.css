@@ -1,0 +1,110 @@
+/* Modal/Dialog Component */
+.modal {
+  padding: 0;
+  margin: auto;
+  border: none;
+  border-radius: var(--modal-radius, 8px);
+  background: var(--modal-bg, white);
+  box-shadow: var(--modal-shadow, 0 25px 50px -12px rgba(0, 0, 0, 0.25));
+  max-height: 90vh;
+  max-width: 90vw;
+  width: var(--modal-width, auto);
+}
+
+.modal::backdrop {
+  background: var(--modal-backdrop, rgba(0, 0, 0, 0.5));
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  max-height: 85vh;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--modal-header-padding, 16px 20px);
+  border-bottom: var(--modal-border, 1px solid #e5e7eb);
+}
+
+.modal-title {
+  margin: 0;
+  font-size: var(--modal-title-size, 1.25rem);
+  font-weight: var(--modal-title-weight, 600);
+  color: var(--modal-title-color, #111827);
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--modal-close-color, #6b7280);
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.modal-close:hover {
+  background: var(--modal-close-hover-bg, #f3f4f6);
+  color: var(--modal-close-hover-color, #374151);
+}
+
+.modal-body {
+  padding: var(--modal-body-padding, 16px 20px 20px);
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Rozmiary */
+.modal-sm {
+  --modal-width: 400px;
+}
+
+.modal-md {
+  --modal-width: 500px;
+}
+
+.modal-lg {
+  --modal-width: 700px;
+}
+
+.modal-xl {
+  --modal-width: 900px;
+}
+
+/* Animation */
+.modal {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal[open] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .modal {
+    --modal-width: calc(100vw - 32px);
+    margin: 16px;
+  }
+  
+  .modal-header {
+    --modal-header-padding: 12px 16px;
+  }
+  
+  .modal-body {
+    --modal-body-padding: 12px 16px 16px;
+  }
+  
+  .modal-title {
+    --modal-title-size: 1.125rem;
+  }
+}

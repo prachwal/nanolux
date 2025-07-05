@@ -1,0 +1,227 @@
+import Select from './Select'
+import { expect } from '@storybook/test'
+import { within, userEvent } from '@storybook/testing-library'
+import './Select.css'
+
+export default {
+  title: 'Components/Select',
+  component: Select,
+  parameters: {
+    docs: {
+      description: {
+        component: 'Select/Dropdown komponent do wyboru opcji z listy z pełną obsługą klawiatury i accessibility'
+      }
+    }
+  },
+  argTypes: {
+    size: {
+      control: { type: 'select' },
+      options: ['sm', 'md', 'lg']
+    },
+    disabled: {
+      control: 'boolean'
+    },
+    error: {
+      control: 'boolean'
+    }
+  }
+}
+
+// Sample options for stories
+const sampleOptions = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+  { value: 'date', label: 'Date' },
+  { value: 'elderberry', label: 'Elderberry' }
+]
+
+const longOptions = [
+  { value: 'option1', label: 'Very long option name that should be truncated' },
+  { value: 'option2', label: 'Another long option' },
+  { value: 'option3', label: 'Short' },
+  { value: 'option4', label: 'Medium length option' }
+]
+
+const optionsWithDisabled = [
+  { value: 'available1', label: 'Available Option 1' },
+  { value: 'disabled1', label: 'Disabled Option', disabled: true },
+  { value: 'available2', label: 'Available Option 2' },
+  { value: 'disabled2', label: 'Another Disabled', disabled: true },
+  { value: 'available3', label: 'Available Option 3' }
+]
+
+// Basic stories
+export const Default = {
+  args: {
+    options: sampleOptions,
+    placeholder: 'Select fruit...'
+  }
+}
+
+export const WithSelectedValue = {
+  args: {
+    options: sampleOptions,
+    value: 'banana',
+    placeholder: 'Select fruit...'
+  }
+}
+
+export const AllSizes = {
+  render: () => (
+    <div class="flex flex-col gap-16">
+      <div>
+        <label class="block mb-4 text-sm font-medium">Small Select</label>
+        <Select 
+          options={sampleOptions} 
+          size="sm" 
+          placeholder="Small select..."
+        />
+      </div>
+      <div>
+        <label class="block mb-4 text-sm font-medium">Medium Select (default)</label>
+        <Select 
+          options={sampleOptions} 
+          size="md" 
+          placeholder="Medium select..."
+        />
+      </div>
+      <div>
+        <label class="block mb-4 text-sm font-medium">Large Select</label>
+        <Select 
+          options={sampleOptions} 
+          size="lg" 
+          placeholder="Large select..."
+        />
+      </div>
+    </div>
+  )
+}
+
+export const States = {
+  render: () => (
+    <div class="flex flex-col gap-16">
+      <div>
+        <label class="block mb-4 text-sm font-medium">Normal State</label>
+        <Select 
+          options={sampleOptions} 
+          placeholder="Normal select..."
+        />
+      </div>
+      <div>
+        <label class="block mb-4 text-sm font-medium">Error State</label>
+        <Select 
+          options={sampleOptions} 
+          error={true}
+          placeholder="Error select..."
+        />
+      </div>
+      <div>
+        <label class="block mb-4 text-sm font-medium">Disabled State</label>
+        <Select 
+          options={sampleOptions} 
+          disabled={true}
+          placeholder="Disabled select..."
+        />
+      </div>
+    </div>
+  )
+}
+
+export const WithDisabledOptions = {
+  args: {
+    options: optionsWithDisabled,
+    placeholder: 'Select option...'
+  }
+}
+
+export const LongOptions = {
+  args: {
+    options: longOptions,
+    placeholder: 'Select long option...'
+  }
+}
+
+export const CustomWidth = {
+  render: () => (
+    <div class="flex flex-col gap-16">
+      <div style="width: 150px;">
+        <label class="block mb-4 text-sm font-medium">Narrow (150px)</label>
+        <Select 
+          options={sampleOptions} 
+          placeholder="Narrow..."
+        />
+      </div>
+      <div style="width: 400px;">
+        <label class="block mb-4 text-sm font-medium">Wide (400px)</label>
+        <Select 
+          options={sampleOptions} 
+          placeholder="Wide select..."
+        />
+      </div>
+    </div>
+  )
+}
+
+// Interactive story with tests
+export const InteractiveTest = {
+  args: {
+    options: sampleOptions,
+    placeholder: 'Select fruit...'
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const select = canvas.getByRole('button')
+    
+    // Test: select trigger jest widoczny
+    await expect(select).toBeInTheDocument()
+    await expect(select).toHaveClass('select-trigger')
+    
+    // Test: placeholder jest wyświetlany
+    await expect(select).toHaveTextContent('Select fruit...')
+    
+    // Test: kliknięcie otwiera dropdown
+    await userEvent.click(select)
+    
+    // Test: dropdown jest widoczny
+    const dropdown = canvas.getByRole('listbox')
+    await expect(dropdown).toBeInTheDocument()
+    
+    // Test: opcje są widoczne
+    const options = canvas.getAllByRole('option')
+    await expect(options).toHaveLength(5)
+    
+    // Test: wybieranie opcji
+    await userEvent.click(options[1]) // Banana
+    
+    // Test: dropdown się zamyka po wyborze
+    await expect(dropdown).not.toBeInTheDocument()
+    
+    // Test: wybrana wartość jest wyświetlana
+    await expect(select).toHaveTextContent('Banana')
+  }
+}
+
+export const KeyboardNavigation = {
+  args: {
+    options: sampleOptions,
+    placeholder: 'Use keyboard to navigate...'
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const select = canvas.getByRole('button')
+    
+    // Focus na select
+    select.focus()
+    
+    // Test: otwórz dropdown z klawiatury
+    await userEvent.keyboard('{Enter}')
+    
+    const dropdown = canvas.getByRole('listbox')
+    await expect(dropdown).toBeInTheDocument()
+    
+    // Test: Escape zamyka dropdown
+    await userEvent.keyboard('{Escape}')
+    await expect(dropdown).not.toBeInTheDocument()
+  }
+}

@@ -1,0 +1,213 @@
+/* Tabs Component */
+.tabs {
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs-vertical {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+/* Tab List */
+.tab-list {
+  display: flex;
+  border-bottom: var(--tabs-border, 1px solid #e5e7eb);
+  margin-bottom: var(--tabs-spacing, 16px);
+}
+
+.tabs-vertical .tab-list {
+  flex-direction: column;
+  border-bottom: none;
+  border-right: var(--tabs-border, 1px solid #e5e7eb);
+  margin-bottom: 0;
+  margin-right: var(--tabs-spacing, 16px);
+  min-width: 150px;
+}
+
+/* Tab Button */
+.tab {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 500;
+  text-align: left;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  position: relative;
+}
+
+.tab:focus {
+  outline: 2px solid var(--tabs-focus-color, #3b82f6);
+  outline-offset: 2px;
+}
+
+.tab-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Tab Sizes */
+.tabs-sm .tab {
+  padding: var(--tab-padding-sm, 6px 12px);
+  font-size: var(--tab-font-size-sm, 0.875rem);
+}
+
+.tabs-md .tab {
+  padding: var(--tab-padding-md, 8px 16px);
+  font-size: var(--tab-font-size-md, 0.9375rem);
+}
+
+.tabs-lg .tab {
+  padding: var(--tab-padding-lg, 12px 20px);
+  font-size: var(--tab-font-size-lg, 1rem);
+}
+
+/* Default variant */
+.tabs-default .tab {
+  color: var(--tab-color, #6b7280);
+  border-bottom: 2px solid transparent;
+}
+
+.tabs-default .tab:hover:not(.tab-disabled) {
+  color: var(--tab-hover-color, #374151);
+  background: var(--tab-hover-bg, #f9fafb);
+}
+
+.tabs-default .tab-active {
+  color: var(--tab-active-color, #3b82f6);
+  border-bottom-color: var(--tab-active-border, #3b82f6);
+}
+
+/* Vertical default variant */
+.tabs-vertical.tabs-default .tab {
+  border-bottom: none;
+  border-right: 2px solid transparent;
+}
+
+.tabs-vertical.tabs-default .tab-active {
+  border-right-color: var(--tab-active-border, #3b82f6);
+  border-bottom-color: transparent;
+}
+
+/* Pills variant */
+.tabs-pills .tab {
+  color: var(--tab-color, #6b7280);
+  border-radius: var(--tab-radius, 6px);
+  margin-right: 4px;
+}
+
+.tabs-pills .tab:hover:not(.tab-disabled) {
+  color: var(--tab-hover-color, #374151);
+  background: var(--tab-hover-bg, #f3f4f6);
+}
+
+.tabs-pills .tab-active {
+  color: var(--tab-active-color, white);
+  background: var(--tab-active-bg, #3b82f6);
+}
+
+.tabs-vertical.tabs-pills .tab {
+  margin-right: 0;
+  margin-bottom: 4px;
+  width: 100%;
+}
+
+/* Underline variant */
+.tabs-underline .tab {
+  color: var(--tab-color, #6b7280);
+  padding-bottom: 12px;
+  position: relative;
+}
+
+.tabs-underline .tab:hover:not(.tab-disabled) {
+  color: var(--tab-hover-color, #374151);
+}
+
+.tabs-underline .tab-active {
+  color: var(--tab-active-color, #3b82f6);
+}
+
+.tabs-underline .tab-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--tab-active-border, #3b82f6);
+  border-radius: 1px;
+}
+
+.tabs-vertical.tabs-underline .tab {
+  padding-bottom: 8px;
+  padding-right: 12px;
+}
+
+.tabs-vertical.tabs-underline .tab-active::after {
+  top: 0;
+  bottom: 0;
+  left: auto;
+  right: 0;
+  width: 2px;
+  height: auto;
+}
+
+/* Tab Panel */
+.tab-panel {
+  animation: tab-panel-appear 0.2s ease;
+}
+
+@keyframes tab-panel-appear {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tabs-vertical .tab-panel {
+  flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .tabs-vertical {
+    flex-direction: column;
+  }
+  
+  .tabs-vertical .tab-list {
+    flex-direction: row;
+    border-right: none;
+    border-bottom: var(--tabs-border, 1px solid #e5e7eb);
+    margin-right: 0;
+    margin-bottom: var(--tabs-spacing, 16px);
+    min-width: auto;
+    overflow-x: auto;
+  }
+  
+  .tabs-vertical.tabs-pills .tab {
+    margin-bottom: 0;
+    margin-right: 4px;
+    width: auto;
+    white-space: nowrap;
+  }
+  
+  .tabs-vertical.tabs-underline .tab {
+    padding-bottom: 12px;
+    padding-right: 16px;
+  }
+  
+  .tabs-vertical.tabs-underline .tab-active::after {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 2px;
+  }
+}

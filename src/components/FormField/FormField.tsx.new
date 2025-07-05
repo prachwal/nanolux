@@ -1,0 +1,127 @@
+import { ComponentChildren } from 'preact'
+
+/**
+ * Props dla komponentu FormField
+ */
+export interface FormFieldProps {
+  /** Etykieta pola */
+  label?: string
+  
+  /** Tekst pomocy pod polem */
+  helpText?: string
+  
+  /** Komunikat o błędzie */
+  errorMessage?: string
+  
+  /** Czy pole jest wymagane */
+  required?: boolean
+  
+  /** Czy pokazać stan błędu */
+  error?: boolean
+  
+  /** Rozmiar pola */
+  size?: 'sm' | 'md' | 'lg'
+  
+  /** ID dla accessibility (automatycznie przekazywane do children) */
+  id?: string
+  
+  /** Zawartość pola (Input, Select, Checkbox, etc.) */
+  children: ComponentChildren
+  
+  /** Custom CSS class */
+  class?: string
+}
+
+/**
+ * FormField - wrapper dla pól formularza z etykietą, pomocą i błędami
+ * @example
+ * <FormField label="Email" helpText="Enter your email address">
+ *   <Input type="email" />
+ * </FormField>
+ * 
+ * <FormField label="Country" error errorMessage="Please select a country">
+ *   <Select options={countries} />
+ * </FormField>
+ */
+export default function FormField({ 
+  label,
+  helpText,
+  errorMessage,
+  required = false,
+  error = false,
+  size = 'md',
+  id,
+  children,
+  class: className,
+  ...props 
+}: FormFieldProps) {
+  // Generuj unikalne ID jeśli nie podano
+  const fieldId = id || `field-${Math.random().toString(36).substr(2, 9)}`
+  const helpId = helpText ? `${fieldId}-help` : undefined
+  const errorId = errorMessage ? `${fieldId}-error` : undefined
+  
+  // Opisz pole przez help i error
+  const describedBy = [helpId, errorId].filter(Boolean).join(' ') || undefined
+  
+  const baseClass = 'form-field'
+  const sizeClass = ` form-field-${size}`
+  const errorClass = error ? ' form-field-error' : ''
+  const customClass = className ? ` ${className}` : ''
+  
+  // Przekaż props do children (jeśli to pojedynczy element)
+  const enhancedChildren = typeof children === 'object' && children && 'props' in children
+    ? {
+        ...children,
+        props: {
+          ...children.props,
+          id: fieldId,
+          'aria-describedby': describedBy,
+          error: error || children.props?.error
+        }
+      }
+    : children
+  
+  return (
+    <div 
+      class={`${baseClass}${sizeClass}${errorClass}${customClass}`}
+      {...props}
+    >
+      {label && (
+        <label 
+          htmlFor={fieldId}
+          class="form-field-label"
+        >
+          {label}
+          {required && (
+            <span class="form-field-required" aria-label="required">
+              *
+            </span>
+          )}
+        </label>
+      )}
+      
+      <div class="form-field-input">
+        {enhancedChildren}
+      </div>
+      
+      {helpText && !error && (
+        <div 
+          id={helpId}
+          class="form-field-help"
+        >
+          {helpText}
+        </div>
+      )}
+      
+      {error && errorMessage && (
+        <div 
+          id={errorId}
+          class="form-field-error-message"
+          role="alert"
+        >
+          {errorMessage}
+        </div>
+      )}
+    </div>
+  )
+}

@@ -1,4 +1,5 @@
 import { ComponentChildren, JSX } from 'preact'
+import './Flex.css'
 
 interface FlexProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'class'> {
   /** Kierunek flex */

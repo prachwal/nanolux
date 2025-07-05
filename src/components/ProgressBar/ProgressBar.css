@@ -1,0 +1,155 @@
+/* ProgressBar base styles */
+.progress-container {
+  width: 100%;
+}
+
+.progress {
+  width: 100%;
+  height: var(--progress-height, 8px);
+  background: var(--progress-bg, #e5e7eb);
+  border-radius: var(--progress-radius, 4px);
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--progress-color, #3b82f6);
+  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Rozmiary */
+.progress-xs {
+  --progress-height: 4px;
+  --progress-radius: 2px;
+}
+
+.progress-sm {
+  --progress-height: 6px;
+  --progress-radius: 3px;
+}
+
+.progress-md {
+  --progress-height: 8px;
+  --progress-radius: 4px;
+}
+
+.progress-lg {
+  --progress-height: 12px;
+  --progress-radius: 6px;
+}
+
+/* Kształty */
+.progress-rounded {
+  border-radius: var(--progress-radius, 4px);
+}
+
+.progress-square {
+  border-radius: 0;
+}
+
+/* Warianty kolorów */
+.progress-bar-primary {
+  --progress-color: #3b82f6;
+}
+
+.progress-bar-secondary {
+  --progress-color: #6b7280;
+}
+
+.progress-bar-success {
+  --progress-color: #10b981;
+}
+
+.progress-bar-warning {
+  --progress-color: #f59e0b;
+}
+
+.progress-bar-danger {
+  --progress-color: #ef4444;
+}
+
+.progress-bar-info {
+  --progress-color: #06b6d4;
+}
+
+/* Paski */
+.progress-bar-striped {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 16px 16px;
+}
+
+/* Animacja */
+.progress-bar-animated {
+  animation: progress-bar-stripes 1s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+  0% {
+    background-position-x: 16px;
+  }
+  100% {
+    background-position-x: 0;
+  }
+}
+
+/* Etykiety */
+.progress-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.progress-label-top,
+.progress-label-bottom {
+  margin-bottom: 4px;
+}
+
+.progress-label-bottom {
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+.progress-label-inside {
+  color: white;
+  font-size: 0.625rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+.progress-label-outside {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #374151;
+  font-size: 0.625rem;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .progress-lg {
+    --progress-height: 10px;
+  }
+  
+  .progress-label-outside {
+    display: none;
+  }
+}

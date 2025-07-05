@@ -1,0 +1,135 @@
+import { describe, it, expect, vi } from 'vitest'
+import { render, screen } from '@testing-library/preact'
+import userEvent from '@testing-library/user-event'
+import Link from './Link'
+
+describe('Link', () => {
+  it('renders with required props', () => {
+    render(<Link href="/test">Test Link</Link>)
+    
+    const link = screen.getByRole('link')
+    expect(link).toBeInTheDocument()
+    expect(link).toHaveAttribute('href', '/test')
+    expect(link).toHaveTextContent('Test Link')
+  })
+
+  it('applies variant classes correctly', () => {
+    const { container } = render(
+      <Link href="/test" variant="primary">Primary Link</Link>
+    )
+    
+    expect(container.querySelector('.link')).toHaveClass('link-primary')
+  })
+
+  it('applies size classes correctly', () => {
+    const { container } = render(
+      <Link href="/test" size="lg">Large Link</Link>
+    )
+    
+    expect(container.querySelector('.link')).toHaveClass('link-lg')
+  })
+
+  it('applies underline classes correctly', () => {
+    const { container } = render(
+      <Link href="/test" underline="always">Always Underlined</Link>
+    )
+    
+    expect(container.querySelector('.link')).toHaveClass('link-underline-always')
+  })
+
+  it('handles external links automatically', () => {
+    render(<Link href="https://example.com">External Link</Link>)
+    
+    const link = screen.getByRole('link')
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+    expect(screen.getByLabelText('(opens in new tab)')).toBeInTheDocument()
+  })
+
+  it('handles external prop explicitly', () => {
+    render(<Link href="/internal" external>Internal but External</Link>)
+    
+    const link = screen.getByRole('link')
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+    expect(screen.getByLabelText('(opens in new tab)')).toBeInTheDocument()
+  })
+
+  it('handles disabled state', () => {
+    const { container } = render(<Link href="/test" disabled>Disabled Link</Link>)
+    
+    const link = container.querySelector('a')
+    expect(link).not.toHaveAttribute('href')
+    expect(link).toHaveAttribute('aria-disabled', 'true')
+    expect(link).toHaveClass('link-disabled')
+  })
+
+  it('calls onClick when clicked', async () => {
+    const handleClick = vi.fn()
+    render(<Link href="/test" onClick={handleClick}>Clickable Link</Link>)
+    
+    const link = screen.getByRole('link')
+    await userEvent.click(link)
+    
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not call onClick when disabled', async () => {
+    const handleClick = vi.fn()
+    const { container } = render(
+      <Link href="/test" disabled onClick={handleClick}>
+        Disabled Link
+      </Link>
+    )
+    
+    const link = container.querySelector('a')!
+    await userEvent.click(link)
+    
+    expect(handleClick).not.toHaveBeenCalled()
+  })
+
+  it('renders children correctly', () => {
+    render(
+      <Link href="/test">
+        <span>Complex</span> Content
+      </Link>
+    )
+    
+    expect(screen.getByText('Complex')).toBeInTheDocument()
+    expect(screen.getByText('Content')).toBeInTheDocument()
+  })
+
+  it('applies custom classes', () => {
+    const { container } = render(
+      <Link href="/test" class="custom-class">Custom Link</Link>
+    )
+    
+    expect(container.querySelector('.link')).toHaveClass('custom-class')
+  })
+
+  it('shows external icon for external URLs', () => {
+    render(<Link href="https://example.com">External</Link>)
+    
+    const externalIcon = screen.getByLabelText('(opens in new tab)')
+    expect(externalIcon).toBeInTheDocument()
+    expect(externalIcon).toHaveTextContent('↗')
+  })
+
+  it('does not show external icon when disabled', () => {
+    render(<Link href="https://example.com" disabled>Disabled External</Link>)
+    
+    expect(screen.queryByLabelText('(opens in new tab)')).not.toBeInTheDocument()
+  })
+
+  it('passes through other props', () => {
+    render(
+      <Link href="/test" data-testid="custom-link" title="Test Title">
+        Test Link
+      </Link>
+    )
+    
+    const link = screen.getByRole('link')
+    expect(link).toHaveAttribute('data-testid', 'custom-link')
+    expect(link).toHaveAttribute('title', 'Test Title')
+  })
+})

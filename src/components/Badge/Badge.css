@@ -1,0 +1,160 @@
+/* Badge base styles */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--badge-padding, 2px 6px);
+  background: var(--badge-bg, #6b7280);
+  color: var(--badge-color, white);
+  border: var(--badge-border, none);
+  border-radius: var(--badge-radius, 3px);
+  font-family: inherit;
+  font-size: var(--badge-font-size, 0.75rem);
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  position: relative;
+}
+
+/* Rozmiary */
+.badge-xs {
+  --badge-padding: 1px 4px;
+  --badge-font-size: 0.625rem;
+  --badge-radius: 2px;
+}
+
+.badge-sm {
+  --badge-padding: 2px 6px;
+  --badge-font-size: 0.75rem;
+  --badge-radius: 3px;
+}
+
+.badge-md {
+  --badge-padding: 4px 8px;
+  --badge-font-size: 0.875rem;
+  --badge-radius: 4px;
+}
+
+.badge-lg {
+  --badge-padding: 6px 12px;
+  --badge-font-size: 1rem;
+  --badge-radius: 6px;
+}
+
+/* Warianty - filled */
+.badge-default {
+  --badge-bg: #6b7280;
+  --badge-color: white;
+}
+
+.badge-primary {
+  --badge-bg: #3b82f6;
+  --badge-color: white;
+}
+
+.badge-secondary {
+  --badge-bg: #6b7280;
+  --badge-color: white;
+}
+
+.badge-success {
+  --badge-bg: #10b981;
+  --badge-color: white;
+}
+
+.badge-warning {
+  --badge-bg: #f59e0b;
+  --badge-color: white;
+}
+
+.badge-danger {
+  --badge-bg: #ef4444;
+  --badge-color: white;
+}
+
+.badge-info {
+  --badge-bg: #06b6d4;
+  --badge-color: white;
+}
+
+/* Warianty - outline */
+.badge-outline-default {
+  --badge-bg: transparent;
+  --badge-color: #6b7280;
+  --badge-border: 1px solid #6b7280;
+}
+
+.badge-outline-primary {
+  --badge-bg: transparent;
+  --badge-color: #3b82f6;
+  --badge-border: 1px solid #3b82f6;
+}
+
+.badge-outline-secondary {
+  --badge-bg: transparent;
+  --badge-color: #6b7280;
+  --badge-border: 1px solid #6b7280;
+}
+
+.badge-outline-success {
+  --badge-bg: transparent;
+  --badge-color: #10b981;
+  --badge-border: 1px solid #10b981;
+}
+
+.badge-outline-warning {
+  --badge-bg: transparent;
+  --badge-color: #f59e0b;
+  --badge-border: 1px solid #f59e0b;
+}
+
+.badge-outline-danger {
+  --badge-bg: transparent;
+  --badge-color: #ef4444;
+  --badge-border: 1px solid #ef4444;
+}
+
+.badge-outline-info {
+  --badge-bg: transparent;
+  --badge-color: #06b6d4;
+  --badge-border: 1px solid #06b6d4;
+}
+
+/* Modyfikatory */
+.badge-rounded {
+  border-radius: 9999px;
+}
+
+/* Dot indicator */
+.badge-with-dot {
+  position: relative;
+}
+
+.badge-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #ef4444;
+  border-radius: 50%;
+  border: 1px solid white;
+}
+
+.badge-dot-top-right {
+  top: -2px;
+  right: -2px;
+}
+
+.badge-dot-top-left {
+  top: -2px;
+  left: -2px;
+}
+
+.badge-dot-bottom-right {
+  bottom: -2px;
+  right: -2px;
+}
+
+.badge-dot-bottom-left {
+  bottom: -2px;
+  left: -2px;
+}

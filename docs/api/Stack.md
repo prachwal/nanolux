@@ -22,4 +22,4 @@
 ---
 
 *This documentation is auto-generated from TypeScript interfaces and JSDoc comments.*
-*Last updated: 2025-07-04T16:49:57.044Z*
+*Last updated: 2025-07-04T19:01:45.450Z*

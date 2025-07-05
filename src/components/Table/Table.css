@@ -1,0 +1,97 @@
+/* Table base styles */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: inherit;
+  font-size: var(--table-font-size, 0.875rem);
+  line-height: 1.5;
+}
+
+.table th,
+.table td {
+  padding: var(--table-cell-padding, 8px 12px);
+  text-align: left;
+  border-bottom: var(--table-border, 1px solid #e5e7eb);
+}
+
+.table th {
+  font-weight: 600;
+  background: var(--table-header-bg, #f9fafb);
+  color: var(--table-header-color, #374151);
+}
+
+.table td {
+  background: var(--table-cell-bg, white);
+  color: var(--table-cell-color, #374151);
+}
+
+/* Rozmiary */
+.table-sm {
+  --table-font-size: 0.75rem;
+  --table-cell-padding: 4px 8px;
+}
+
+.table-lg {
+  --table-font-size: 1rem;
+  --table-cell-padding: 12px 16px;
+}
+
+/* Warianty */
+.table-striped tbody tr:nth-child(even) {
+  --table-cell-bg: #f9fafb;
+}
+
+.table-bordered {
+  border: var(--table-border, 1px solid #e5e7eb);
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: var(--table-border, 1px solid #e5e7eb);
+}
+
+/* Sortowanie */
+.table-sortable {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.table-sortable:hover {
+  background: var(--table-hover-bg, #f3f4f6);
+}
+
+.table-sort-icon {
+  margin-left: 4px;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* Zaznaczanie wierszy */
+.table-select-header,
+.table-select-cell {
+  width: 40px;
+  text-align: center;
+}
+
+.table-row-selected {
+  --table-cell-bg: #eff6ff;
+}
+
+/* Responsywność */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .table-responsive .table {
+    min-width: 600px;
+  }
+}
+
+/* Alignment utilities */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }

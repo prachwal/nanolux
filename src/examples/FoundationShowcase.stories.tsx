@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/preact'
-import { Button, Input, Flex, Stack, Heading, Text, Card } from './index'
+import { Button, Input, Flex, Stack, Heading, Text, Card } from '../components/index'
 
 const meta: Meta = {
   title: 'Phase 1/Foundation Showcase',

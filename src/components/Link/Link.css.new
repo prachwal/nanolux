@@ -1,0 +1,159 @@
+/* Link - Atomic CSS + Variables */
+.link {
+  color: var(--link-color, #3b82f6);
+  text-decoration: none;
+  font-size: var(--link-size, 0.875rem);
+  font-weight: var(--link-weight, 400);
+  line-height: var(--link-line-height, 1.5);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--link-gap, 4px);
+}
+
+.link:hover:not(.link-disabled) {
+  color: var(--link-hover-color, #1d4ed8);
+}
+
+.link:focus {
+  outline: 2px solid var(--link-focus-color, #3b82f6);
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+.link-disabled {
+  color: var(--link-disabled-color, #9ca3af);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Underline variants */
+.link-underline-none {
+  text-decoration: none;
+}
+
+.link-underline-hover:hover:not(.link-disabled) {
+  text-decoration: underline;
+  text-decoration-thickness: var(--link-underline-thickness, 1px);
+  text-underline-offset: var(--link-underline-offset, 2px);
+}
+
+.link-underline-always {
+  text-decoration: underline;
+  text-decoration-thickness: var(--link-underline-thickness, 1px);
+  text-underline-offset: var(--link-underline-offset, 2px);
+}
+
+/* Variant styles */
+.link-primary {
+  --link-color: #3b82f6;
+  --link-hover-color: #1d4ed8;
+  --link-focus-color: #3b82f6;
+}
+
+.link-secondary {
+  --link-color: #6b7280;
+  --link-hover-color: #374151;
+  --link-focus-color: #6b7280;
+}
+
+.link-muted {
+  --link-color: #9ca3af;
+  --link-hover-color: #6b7280;
+  --link-focus-color: #9ca3af;
+}
+
+.link-danger {
+  --link-color: #dc2626;
+  --link-hover-color: #991b1b;
+  --link-focus-color: #dc2626;
+}
+
+/* Size variants */
+.link-sm {
+  --link-size: 0.75rem;
+  --link-gap: 2px;
+}
+
+.link-lg {
+  --link-size: 1rem;
+  --link-weight: 500;
+  --link-gap: 6px;
+}
+
+/* External link icon */
+.link-external-icon {
+  font-size: var(--link-external-icon-size, 0.75em);
+  line-height: 1;
+  opacity: var(--link-external-icon-opacity, 0.7);
+  transition: opacity 0.2s ease;
+}
+
+.link:hover .link-external-icon {
+  opacity: 1;
+}
+
+.link-external {
+  --link-gap: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .link {
+    --link-size: 0.875rem;
+    --link-gap: 3px;
+  }
+  
+  .link-sm {
+    --link-size: 0.75rem;
+    --link-gap: 2px;
+  }
+  
+  .link-lg {
+    --link-size: 1rem;
+    --link-gap: 4px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .link {
+    color: black !important;
+    text-decoration: underline !important;
+  }
+  
+  .link-external::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+  
+  .link-external-icon {
+    display: none;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .link {
+    --link-color: #60a5fa;
+    --link-hover-color: #93c5fd;
+    --link-disabled-color: #6b7280;
+  }
+  
+  .link-secondary {
+    --link-color: #9ca3af;
+    --link-hover-color: #d1d5db;
+  }
+  
+  .link-muted {
+    --link-color: #6b7280;
+    --link-hover-color: #9ca3af;
+  }
+  
+  .link-danger {
+    --link-color: #f87171;
+    --link-hover-color: #fca5a5;
+  }
+}
